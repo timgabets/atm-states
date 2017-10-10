@@ -1,20 +1,24 @@
 {
   "name": "atm-states",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "ATM States Service",
-  "main": "main.js",
+  "main": "states.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "istanbul cover jasmine"
   },
   "repository": "https://github.com/timgabets/atm-states",
   "keywords": [
     "ATM",
     "States"
   ],
-  "author": { 
-    "name" : "Tim Gabets"
-    ,"email" : "tim@gabets.ru"
-    ,"url" : "http://gabets.ru/"
+  "author": {
+    "name": "Tim Gabets",
+    "email": "tim@gabets.ru",
+    "url": "http://gabets.ru/"
   },
-  "license": "LGPL-2.1"
+  "license": "LGPL-2.1",
+  "dependencies": {
+    "istanbul": "^0.4.5",
+    "jasmine": "^2.8.0"
+  }
 }
