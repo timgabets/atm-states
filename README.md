@@ -4,10 +4,9 @@ ATM States Service implementation, used by [Electron ATM](https://github.com/tim
 
 ## To use:
 ```javascript
-const settings = require('electron-settings');
 const StatesService = require('atm-states');
 
-var s = new StatesService(settings);
+var s = new StatesService();
 s.getEntry('000ABCDEFGHIJKLMNOPQRSTUVWXY', 1)
 > 'A'
 s.getEntry('000A001002003004005006007008', 2)

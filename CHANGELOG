@@ -1,4 +1,5 @@
 October 2017
+	0.2.1 	settings argument to StatesService() is now optional
 	0.2.0	addState() may now parse state passed as array object
 	0.1.7	Fixed README grammar
 	0.1.6	Added use cases

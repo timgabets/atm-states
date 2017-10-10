@@ -2,12 +2,14 @@ const LevelsService = require('atm-state-levels');
 
 /**
  * [StatesService description]
- * @param {[type]} settings [settings object, created by require('electron-settings')]
+ * @param {[type]} settings [optional, settings object, created by require('electron-settings')]
  * @param {[type]} log      [optional, log helper]
  * @param {[type]} trace    [optional, trace helper]
  */
 function StatesService(settings, log, trace){
-    this.states = settings.get('states');
+    if(settings)
+        this.states = settings.get('states');
+
     if(!this.states)
         this.states = {};
     
@@ -38,7 +40,8 @@ function StatesService(settings, log, trace){
         this.states[parsed.number] = parsed;
         if(log && trace)
             log.info('State ' + parsed.number + ' processed:' + trace.object(parsed));
-        settings.set('states', this.states);
+        if(settings)
+            settings.set('states', this.states);
         return true;
       }
       else
