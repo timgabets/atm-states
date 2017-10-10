@@ -565,8 +565,16 @@ describe("States", function() {
       expect(s.get('000')).toEqual(parsed);
     });
 
-    it("should not add state the incorrect values", function() {
+    it("should not add state with the incorrect state entries", function() {
       expect(s.addStateArray(['0', 'A', '870', '500', '128', '2', '2', '0', '21', '9999999999'])).toBeFalsy();
+    });
+
+    it("should not add state with the incorrect state type", function() {
+      expect(s.addStateArray(['0', 'AX', '870', '500', '128', '2', '2', '0', '21', '000'])).toBeFalsy();
+    });
+
+    it("should not add state with the empty state type", function() {
+      expect(s.addStateArray(['0', '', '870', '500', '128', '2', '2', '0', '21', '000'])).toBeFalsy();
     });
 
     it("should add valid state passed as array of numbers", function() {

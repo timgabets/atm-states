@@ -59,6 +59,9 @@ function StatesService(settings, log, trace){
       state_array.forEach(entry => {
         if(isNaN(parseInt(entry))){
           // Probably it's a state type entry 
+          if(entry.length === 0 || entry.length > 1)
+            valid = false;
+          
           state_string += entry;
         } else {
           if(entry.toString().length === 3)
