@@ -527,7 +527,7 @@ describe("States", function() {
         expect(s.addState('')).toEqual(false);
       });
 
-      it("should add valid state", function() {
+      it("should add valid state passed as string", function() {
         var parsed = { 
           number: '000', 
           type: 'A', 
@@ -544,6 +544,27 @@ describe("States", function() {
         };
 
         expect(s.addState('000A870500128002002002001127')).toEqual(true);
+        expect(s.get('000')).toEqual(parsed);
+
+      });
+
+      it("should add valid state passed as array object", function() {
+        var parsed = { 
+          number: '000', 
+          type: 'A', 
+          description: 'Card read state',
+          screen_number: '870', 
+          good_read_next_state: '500', 
+          error_screen_number: '128', 
+          read_condition_1: '002', 
+          read_condition_2: '002', 
+          read_condition_3: '002', 
+          card_return_flag: '001', 
+          no_fit_match_next_state: '127',
+          states_to: [ '500', '127' ]
+        };
+
+        expect(s.addState(['000', 'A', '870', '500', '128', '002', '002', '002', '001', '127'])).toEqual(true);
         expect(s.get('000')).toEqual(parsed);
 
       });

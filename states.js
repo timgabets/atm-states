@@ -45,6 +45,18 @@ function StatesService(settings, log, trace){
         return false;
     };
 
+    /**
+     * [addStateArray description]
+     * @param {[type]} state_array [state object, passed as array, e.g. ['000', 'A', '870', '500', '128', '002', '002', '002', '001', '127']]
+     */
+    this.addStateArray = function(state_array){
+      var state_string = '';
+      state_array.forEach(entry => {
+        state_string += entry;
+      })
+      
+      return this.addStateString(state_string);
+    }
 
     /**
      * [addState description]
@@ -52,7 +64,16 @@ function StatesService(settings, log, trace){
      * @return {boolean}     [true if state was successfully added, false otherwise]
      */
     this.addState = function(state){
-      return this.addStateString(state);
+      if(typeof(state) === 'string')
+        return this.addStateString(state);
+      else if (typeof(state) === 'object')
+        return this.addStateArray(state);
+      else {
+        if(log)
+          log.error('addState() Unsupported state object type: ' + typeof(state));
+        return false;
+      }
+
     };
 
     /**
