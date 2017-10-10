@@ -2,7 +2,7 @@
   "name": "atm-states",
   "version": "0.1",
   "description": "ATM States Service",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
