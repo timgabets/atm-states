@@ -566,7 +566,7 @@ describe("States", function() {
     });
 
     it("should not add state with the incorrect state entries", function() {
-      expect(s.addStateArray(['0', 'A', '870', '500', '128', '2', '2', '0', '21', '9999999999'])).toBeFalsy();
+      expect(s.addStateArray(['0', 'A', '870', '500', '128', '2', '', '0', '21', '9999999999'])).toBeFalsy();
     });
 
     it("should not add state with the incorrect state type", function() {
@@ -597,30 +597,51 @@ describe("States", function() {
   })
 
   describe("addState()", function(){
-      it("should return false when empty data passed", function() {
-        expect(s.addState('')).toEqual(false);
-      });
+    it("should return false when empty data passed", function() {
+      expect(s.addState()).toEqual(false);
+    });
 
-      it("should add valid state passed as string", function() {
-        var parsed = { 
-          number: '000', 
-          type: 'A', 
-          description: 'Card read state',
-          screen_number: '870', 
-          good_read_next_state: '500', 
-          error_screen_number: '128', 
-          read_condition_1: '002', 
-          read_condition_2: '002', 
-          read_condition_3: '002', 
-          card_return_flag: '001', 
-          no_fit_match_next_state: '127',
-          states_to: [ '500', '127' ]
-        };
+    it("should return false when empty string passed", function() {
+      expect(s.addState('')).toEqual(false);
+    });
 
-        expect(s.addState('000A870500128002002002001127')).toBeTruthy();
-        expect(s.get('000')).toEqual(parsed);
+    it("should add valid state passed as string", function() {
+      var parsed = { 
+        number: '000', 
+        type: 'A', 
+        description: 'Card read state',
+        screen_number: '870', 
+        good_read_next_state: '500', 
+        error_screen_number: '128', 
+        read_condition_1: '002', 
+        read_condition_2: '002', 
+        read_condition_3: '002', 
+        card_return_flag: '001', 
+        no_fit_match_next_state: '127',
+        states_to: [ '500', '127' ]
+      };
 
-      });
+      expect(s.addState('000A870500128002002002001127')).toBeTruthy();
+      expect(s.get('000')).toEqual(parsed);
+    });
+
+    it("should add valid state passed as array of numbers", function() {
+      var parsed = { 
+        description: 'Close state', 
+        number: '002', 
+        type: 'J', 
+        receipt_delivered_screen: '132', 
+        next_state: '000', 
+        no_receipt_delivered_screen: '132', 
+        card_retained_screen_number: '136', 
+        statement_delivered_screen_number: '132', 
+        bna_notes_returned_screen: '120', 
+        extension_state: '264' 
+      };
+
+      expect(s.addState([2, 'J', 132, 0, 132, 136, 132, 0, 120, 264, 0])).toBeTruthy();
+      expect(s.get('002')).toEqual(parsed);
+    });
   });
 
   describe("add()", function(){
