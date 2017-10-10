@@ -631,6 +631,19 @@ function StatesService(settings, log, trace){
         return this.addState(data); 
       } 
     };
+
+    /**
+     * [delete delete state]
+     * @param  {[type]} state_number [number of the state to be deleted]
+     * @return {[type]}              [true if state existed and was deleted, false if state did not exist]
+     */
+    this.delete = function(state_number){
+      if(this.states[state_number]){
+        this.states[state_number] = undefined;
+        return true;
+      }else
+        return false;
+    };
 }
 
 /**
