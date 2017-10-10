@@ -51,10 +51,28 @@ function StatesService(settings, log, trace){
      */
     this.addStateArray = function(state_array){
       var state_string = '';
+
       state_array.forEach(entry => {
-        state_string += entry;
+        if(isNaN(parseInt(entry))){
+          // Probably it's a state type entry 
+          state_string += entry;
+        } else {
+          if(entry.length === 3)
+            state_string += entry;
+          else if(entry.length === 2)
+            state_string += '0' + entry;
+          else if(entry.length === 1)
+            state_string += '00' + entry;
+          else if (entry.length === 0)
+            state_string += '000';
+          else{
+            if(log)
+              log.error('addStateArray(): invalid state entry: ' + entry);
+            return false;
+          }
+        }
       })
-      
+
       return this.addStateString(state_string);
     }
 
