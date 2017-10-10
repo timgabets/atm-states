@@ -1,6 +1,6 @@
 {
   "name": "atm-states",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "ATM States Service",
   "main": "states.js",
   "scripts": {
@@ -19,6 +19,7 @@
   "license": "LGPL-2.1",
   "dependencies": {
     "atm-state-levels": "^1.0.6",
+    "electron-settings": "^3.1.2",
     "istanbul": "^0.4.5",
     "jasmine": "^2.8.0"
   }
