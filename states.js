@@ -55,6 +55,8 @@ function StatesService(settings, log, trace){
     this.addStateArray = function(state_array){
       var state_string = '';
 
+      log.info(state_array);
+
       state_array.forEach(entry => {
         if(isNaN(parseInt(entry))){
           // Probably it's a state type entry 
