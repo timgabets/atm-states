@@ -591,6 +591,24 @@ describe("States", function() {
         expect(s.get('000')).toEqual(parsed);
 
       });
+
+      it("should add valid state passed as array of numbers", function() {
+        var parsed = { 
+          description: 'Close state', 
+          number: '002', 
+          type: 'J', 
+          receipt_delivered_screen: '132', 
+          next_state: '000', 
+          no_receipt_delivered_screen: '132', 
+          card_retained_screen_number: '136', 
+          statement_delivered_screen_number: '132', 
+          bna_notes_returned_screen: '120', 
+          extension_state: '264' 
+        };
+
+        expect(s.addState([2, 'J', 132, 0, 132, 136, 132, 0, 120, 264, 0])).toEqual(true);
+        expect(s.get('002')).toEqual(parsed);
+      });
   });
 
   describe("add()", function(){
