@@ -55,6 +55,7 @@ function StatesService(settings, log, trace){
     this.addStateArray = function(state_array){
       var state_string = '';
 
+      var valid = true;
       state_array.forEach(entry => {
         if(isNaN(parseInt(entry))){
           // Probably it's a state type entry 
@@ -68,13 +69,16 @@ function StatesService(settings, log, trace){
             state_string += '00' + entry.toString();
           else if (entry.toString().length === 0)
             state_string += '000';
-          else{
+          else {
             if(log)
               log.error('addStateArray(): invalid state entry: ' + entry);
-            return false;
+            valid = false;
           }
         }
       })
+
+      if(!valid)
+        return false;
 
       return this.addStateString(state_string);
     }

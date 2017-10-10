@@ -524,6 +524,70 @@ describe("States", function() {
     });
   });
 
+  describe('addStateArray()', function(){
+    it("should add valid state passed as array object", function() {
+      var parsed = { 
+        number: '000', 
+        type: 'A', 
+        description: 'Card read state',
+        screen_number: '870', 
+        good_read_next_state: '500', 
+        error_screen_number: '128', 
+        read_condition_1: '002', 
+        read_condition_2: '002', 
+        read_condition_3: '002', 
+        card_return_flag: '001', 
+        no_fit_match_next_state: '127',
+        states_to: [ '500', '127' ]
+      };
+
+      expect(s.addStateArray(['000', 'A', '870', '500', '128', '002', '002', '002', '001', '127'])).toBeTruthy();
+      expect(s.get('000')).toEqual(parsed);
+    });
+
+    it("should add valid state passed as array object with unpadded values", function() {
+      var parsed = { 
+        number: '000', 
+        type: 'A', 
+        description: 'Card read state',
+        screen_number: '870', 
+        good_read_next_state: '500', 
+        error_screen_number: '128', 
+        read_condition_1: '002', 
+        read_condition_2: '002', 
+        read_condition_3: '002', 
+        card_return_flag: '021', 
+        no_fit_match_next_state: '127',
+        states_to: [ '500', '127' ]
+      };
+
+      expect(s.addStateArray(['0', 'A', '870', '500', '128', '2', '2', '2', '21', '127'])).toBeTruthy();
+      expect(s.get('000')).toEqual(parsed);
+    });
+
+    it("should not add state the incorrect values", function() {
+      expect(s.addStateArray(['0', 'A', '870', '500', '128', '2', '2', '0', '21', '9999999999'])).toBeFalsy();
+    });
+
+    it("should add valid state passed as array of numbers", function() {
+      var parsed = { 
+        description: 'Close state', 
+        number: '002', 
+        type: 'J', 
+        receipt_delivered_screen: '132', 
+        next_state: '000', 
+        no_receipt_delivered_screen: '132', 
+        card_retained_screen_number: '136', 
+        statement_delivered_screen_number: '132', 
+        bna_notes_returned_screen: '120', 
+        extension_state: '264' 
+      };
+
+      expect(s.addStateArray([2, 'J', 132, 0, 132, 136, 132, 0, 120, 264, 0])).toBeTruthy();
+      expect(s.get('002')).toEqual(parsed);
+    });
+  })
+
   describe("addState()", function(){
       it("should return false when empty data passed", function() {
         expect(s.addState('')).toEqual(false);
@@ -545,69 +609,9 @@ describe("States", function() {
           states_to: [ '500', '127' ]
         };
 
-        expect(s.addState('000A870500128002002002001127')).toEqual(true);
+        expect(s.addState('000A870500128002002002001127')).toBeTruthy();
         expect(s.get('000')).toEqual(parsed);
 
-      });
-
-      it("should add valid state passed as array object", function() {
-        var parsed = { 
-          number: '000', 
-          type: 'A', 
-          description: 'Card read state',
-          screen_number: '870', 
-          good_read_next_state: '500', 
-          error_screen_number: '128', 
-          read_condition_1: '002', 
-          read_condition_2: '002', 
-          read_condition_3: '002', 
-          card_return_flag: '001', 
-          no_fit_match_next_state: '127',
-          states_to: [ '500', '127' ]
-        };
-
-        expect(s.addState(['000', 'A', '870', '500', '128', '002', '002', '002', '001', '127'])).toEqual(true);
-        expect(s.get('000')).toEqual(parsed);
-
-      });
-
-      it("should add valid state passed as array object with unpadded values", function() {
-        var parsed = { 
-          number: '000', 
-          type: 'A', 
-          description: 'Card read state',
-          screen_number: '870', 
-          good_read_next_state: '500', 
-          error_screen_number: '128', 
-          read_condition_1: '002', 
-          read_condition_2: '002', 
-          read_condition_3: '002', 
-          card_return_flag: '021', 
-          no_fit_match_next_state: '127',
-          states_to: [ '500', '127' ]
-        };
-
-        expect(s.addState(['0', 'A', '870', '500', '128', '2', '2', '2', '21', '127'])).toEqual(true);
-        expect(s.get('000')).toEqual(parsed);
-
-      });
-
-      it("should add valid state passed as array of numbers", function() {
-        var parsed = { 
-          description: 'Close state', 
-          number: '002', 
-          type: 'J', 
-          receipt_delivered_screen: '132', 
-          next_state: '000', 
-          no_receipt_delivered_screen: '132', 
-          card_retained_screen_number: '136', 
-          statement_delivered_screen_number: '132', 
-          bna_notes_returned_screen: '120', 
-          extension_state: '264' 
-        };
-
-        expect(s.addState([2, 'J', 132, 0, 132, 136, 132, 0, 120, 264, 0])).toEqual(true);
-        expect(s.get('002')).toEqual(parsed);
       });
   });
 
@@ -728,11 +732,11 @@ describe("States", function() {
         states_to: [ '500', '127' ]
       };
 
-      expect(s.addState('000A870500128002002002001127')).toEqual(true);
+      expect(s.addState('000A870500128002002002001127')).toBeTruthy();
       expect(s.get('000')).toEqual(parsed);
 
-      expect(s.addState('500Zxxxxxxxxxxxxxxxxxxxxxxxx')).toEqual(true);
-      expect(s.addState('127Zxxxxxxxxxxxxxxxxxxxxxxxx')).toEqual(true);
+      expect(s.addState('500Zxxxxxxxxxxxxxxxxxxxxxxxx')).toBeTruthy();
+      expect(s.addState('127Zxxxxxxxxxxxxxxxxxxxxxxxx')).toBeTruthy();
       s.updateStateLevels();
 
       expect(s.get('000')['level']).toEqual(1);
@@ -756,7 +760,7 @@ describe("States", function() {
         no_fit_match_next_state: '127',
         states_to: [ '500', '127' ]
       };
-      expect(s.addState('000A870500128002002002001127')).toEqual(true);
+      expect(s.addState('000A870500128002002002001127')).toBeTruthy();
       expect(s.get('000')).toEqual(A000);
 
       // Level 1
@@ -774,7 +778,7 @@ describe("States", function() {
         local_pin_check_max_retries: '003',
         states_to: [ '002', '131', '026', '026', '026' ]
       };
-      expect(s.addState('500B024002131026026138026003')).toEqual(true);
+      expect(s.addState('500B024002131026026138026003')).toBeTruthy();
       expect(s.get('500')).toEqual(B500);
 
       var D127 ={ 
@@ -790,7 +794,7 @@ describe("States", function() {
         extension_state: '005',
         states_to: [ '024' ]
       };
-      expect(s.addState('127D024000128001002003004005')).toEqual(true);
+      expect(s.addState('127D024000128001002003004005')).toBeTruthy();
       expect(s.get('127')).toEqual(D127);
 
       // Level 2
@@ -806,7 +810,7 @@ describe("States", function() {
         bna_notes_returned_screen: '081', 
         extension_state: '178'
       };
-      expect(s.addState('002J132000132136132000081178')).toEqual(true);
+      expect(s.addState('002J132000132136132000081178')).toBeTruthy();
       expect(s.get('002')).toEqual(J002);
 
       var J131 = { 
@@ -821,7 +825,7 @@ describe("States", function() {
         bna_notes_returned_screen: '081', 
         extension_state: '178'
       };
-      expect(s.addState('131J132000132136132000081178')).toEqual(true);
+      expect(s.addState('131J132000132136132000081178')).toBeTruthy();
       expect(s.get('131')).toEqual(J131);
 
       var J026 = { 
@@ -836,7 +840,7 @@ describe("States", function() {
         bna_notes_returned_screen: '081', 
         extension_state: '178'
       };
-      expect(s.addState('026J132000132136132000081178')).toEqual(true);
+      expect(s.addState('026J132000132136132000081178')).toBeTruthy();
       expect(s.get('026')).toEqual(J026);
 
       // Updating levels
@@ -866,7 +870,7 @@ describe("States", function() {
         no_fit_match_next_state: '127',
         states_to: [ '219', '127' ]
       };
-      expect(s.addState('000A870219128002002002001127')).toEqual(true);
+      expect(s.addState('000A870219128002002002001127')).toBeTruthy();
       expect(s.get('000')).toEqual(A000);
 
       var F219 = { 
@@ -883,7 +887,7 @@ describe("States", function() {
         amount_display_screen: '006',
         states_to: [ '002', '131', '220', '255', '220', '219' ]
       };
-      expect(s.addState('219F069002131220255220219006')).toEqual(true);   
+      expect(s.addState('219F069002131220255220219006')).toBeTruthy();   
       expect(s.get('219')).toEqual(F219);
 
       s.updateStateLevels();
@@ -899,7 +903,7 @@ describe("States", function() {
     });
 
     it('should delete state', function(){
-      expect(s.addState('219F069002131220255220219006')).toEqual(true);   
+      expect(s.addState('219F069002131220255220219006')).toBeTruthy();   
       expect(s.get('219')).not.toBeUndefined();
       
       expect(s.delete('219')).toBeTruthy();
