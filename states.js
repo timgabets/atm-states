@@ -7,186 +7,185 @@ const LevelsService = require('atm-state-levels');
  * @param {[type]} trace    [optional, trace helper]
  */
 function StatesService(settings, log, trace){
-    if(settings)
-        this.states = settings.get('states');
+  if(settings)
+      this.states = settings.get('states');
 
-    if(!this.states)
-        this.states = {};
+  if(!this.states)
+      this.states = {};
     
-    this.levels = new LevelsService();
+  this.levels = new LevelsService();
 
-    /**
-     * [getEntry get the state entry, e.g. state entry 3 is a substring of original state string from position 7 to position 10 ]
-     * @param  {[type]} data  [state data to parse]
-     * @param  {[type]} entry [state entry to get]
-     * @return {[type]}       [3-bytes long state entry on success, null otherwise]
-     */
-    this.getEntry = function(data, entry){
-      if(entry > 0 && entry < 2)
-        return data.substring(3, 4);
-      else if (entry < 10)            
-        return data.substring(1 + 3 * (entry - 1), 4 + 3 * (entry - 1));
+  /**
+   * [getEntry get the state entry, e.g. state entry 3 is a substring of original state string from position 7 to position 10 ]
+   * @param  {[type]} data  [state data to parse]
+   * @param  {[type]} entry [state entry to get]
+   * @return {[type]}       [3-bytes long state entry on success, null otherwise]
+   */
+  this.getEntry = function(data, entry){
+    if(entry > 0 && entry < 2)
+      return data.substring(3, 4);
+    else if (entry < 10)            
+      return data.substring(1 + 3 * (entry - 1), 4 + 3 * (entry - 1));
 
-      return null;
+    return null;
+  }
+
+  /**
+   * [addStateString add state passed as a string]
+   * @param {[type]} state [string, e.g. '000A870500128002002002001127']
+   */
+  this.addStateString = function(state){
+    var parsed = this.parseState(state);
+    if(parsed){
+      this.states[parsed.number] = parsed;
+      if(log && trace)
+          log.info('State ' + parsed.number + ' processed:' + trace.object(parsed));
+      if(settings)
+          settings.set('states', this.states);
+      return true;
     }
+    else
+      return false;
+  };
 
-    /**
-     * [addStateString add state passed as a string]
-     * @param {[type]} state [string, e.g. '000A870500128002002002001127']
-     */
-    this.addStateString = function(state){
-      var parsed = this.parseState(state);
-      if(parsed){
-        this.states[parsed.number] = parsed;
-        if(log && trace)
-            log.info('State ' + parsed.number + ' processed:' + trace.object(parsed));
-        if(settings)
-            settings.set('states', this.states);
-        return true;
-      }
-      else
-        return false;
-    };
+  /**
+   * [addStateArray description]
+   * @param {[type]} state_array [state object, passed as array, e.g. ['000', 'A', '870', '500', '128', '002', '002', '002', '001', '127']]
+   */
+  this.addStateArray = function(state_array){
+    var state_string = '';
 
-    /**
-     * [addStateArray description]
-     * @param {[type]} state_array [state object, passed as array, e.g. ['000', 'A', '870', '500', '128', '002', '002', '002', '001', '127']]
-     */
-    this.addStateArray = function(state_array){
-      var state_string = '';
-
-      var valid = true;
-      state_array.forEach(entry => {
-        if(isNaN(parseInt(entry))){
-          // Probably it's a state type entry 
-          if(entry.length === 0 || entry.length > 1)
-            valid = false;
+    var valid = true;
+    state_array.forEach(entry => {
+      if(isNaN(parseInt(entry))){
+        // Probably it's a state type entry 
+        if(entry.length === 0 || entry.length > 1)
+          valid = false;
           
-          state_string += entry;
-        } else {
-          if(entry.toString().length === 3)
-            state_string += entry.toString();
-          else if(entry.toString().length === 2)
-            state_string += '0' + entry.toString();
-          else if(entry.toString().length === 1)
-            state_string += '00' + entry.toString();
-          else if (entry.toString().length === 0)
-            state_string += '000';
-          else {
-            if(log)
-              log.error('addStateArray(): invalid state entry: ' + entry);
-            valid = false;
-          }
+        state_string += entry;
+      } else {
+        if(entry.toString().length === 3)
+          state_string += entry.toString();
+        else if(entry.toString().length === 2)
+          state_string += '0' + entry.toString();
+        else if(entry.toString().length === 1)
+          state_string += '00' + entry.toString();
+        else if (entry.toString().length === 0)
+          state_string += '000';
+        else {
+          if(log)
+            log.error('addStateArray(): invalid state entry: ' + entry);
+          valid = false;
         }
-      })
-
-      if(!valid)
-        return false;
-
-      return this.addStateString(state_string);
-    }
-
-    /**
-     * [addState description]
-     * @param {[type]} state [description]
-     * @return {boolean}     [true if state was successfully added, false otherwise]
-     */
-    this.addState = function(state){
-      if(typeof(state) === 'string')
-        return this.addStateString(state);
-      else if (typeof(state) === 'object')
-        return this.addStateArray(state);
-      else {
-        if(log)
-          log.error('addState() Unsupported state object type: ' + typeof(state));
-        return false;
       }
+    })
 
+    if(!valid)
+      return false;
+
+    return this.addStateString(state_string);
+  }
+
+  /**
+   * [addState description]
+   * @param {[type]} state [description]
+   * @return {boolean}     [true if state was successfully added, false otherwise]
+   */
+  this.addState = function(state){
+    if(typeof(state) === 'string')
+      return this.addStateString(state);
+    else if (typeof(state) === 'object')
+      return this.addStateArray(state);
+    else {
+      if(log)
+        log.error('addState() Unsupported state object type: ' + typeof(state));
+      return false;
+    }
+  };
+
+  /**
+   * [parseState description]
+   * @param  {[type]} data [description]
+   * @return {[type]}      [description]
+   */
+  this.parseState = function(data){
+    /**
+     * [addStateLinks add states_to property to the given state object. After running this function, state.states_to contains state exits]
+     * @param {[type]} state      [state]
+     * @param {[type]} properties [array of properties, containing the state numbers to go, e.g. ['500', '004']]
+     */
+    function addStateLinks(state, properties){
+      state.states_to = [];
+      properties.forEach( (property, index) => {
+        state.states_to.push(state[property]);
+      });
     };
 
-    /**
-     * [parseState description]
-     * @param  {[type]} data [description]
-     * @return {[type]}      [description]
-     */
-    this.parseState = function(data){
-        /**
-         * [addStateLinks add states_to property to the given state object. After running this function, state.states_to contains state exits]
-         * @param {[type]} state      [state]
-         * @param {[type]} properties [array of properties, containing the state numbers to go, e.g. ['500', '004']]
-         */
-        function addStateLinks(state, properties){
-          state.states_to = [];
-          properties.forEach( (property, index) => {
-            state.states_to.push(state[property]);
-          });
-        };
+    var parsed = {};
+    parsed.description = '';
+    parsed.number = data.substring(0, 3)
+    if(isNaN(parsed.number))
+      return null;
 
-        var parsed = {};
-        parsed.description = '';
-        parsed.number = data.substring(0, 3)
-        if(isNaN(parsed.number))
-            return null;
-
-        parsed.type = this.getEntry(data, 1);
+    parsed.type = this.getEntry(data, 1);
         
-        switch(parsed.type){
-            case 'A':
-                parsed.description = 'Card read state';
-                ['screen_number',           /* State entry 2 */
-                'good_read_next_state',     /* State entry 3 */
-                'error_screen_number',      /* State entry 4 */
-                'read_condition_1',         /* State entry 5 */
-                'read_condition_2',         /* State entry 6 */
-                'read_condition_3',         /* State entry 7 */
-                'card_return_flag',         /* State entry 8 */
-                'no_fit_match_next_state',  /* State entry 9 */
-                ].forEach( (element, index) => {
-                    parsed[element] = this.getEntry(data, index + 2)
-                });
-                addStateLinks(parsed, ['good_read_next_state', 'no_fit_match_next_state']);
-                break;
+    switch(parsed.type){
+      case 'A':
+        parsed.description = 'Card read state';
+        ['screen_number',           /* State entry 2 */
+        'good_read_next_state',     /* State entry 3 */
+        'error_screen_number',      /* State entry 4 */
+        'read_condition_1',         /* State entry 5 */
+        'read_condition_2',         /* State entry 6 */
+        'read_condition_3',         /* State entry 7 */
+        'card_return_flag',         /* State entry 8 */
+        'no_fit_match_next_state',  /* State entry 9 */
+        ].forEach( (element, index) => {
+            parsed[element] = this.getEntry(data, index + 2)
+        });
+        addStateLinks(parsed, ['good_read_next_state', 'no_fit_match_next_state']);
+        break;
 
-            case 'B':
-                parsed.description = 'PIN Entry state';
-                ['screen_number',
-                'timeout_next_state',
-                'cancel_next_state',
-                'local_pin_check_good_next_state',
-                'local_pin_check_max_bad_pins_next_state',
-                'local_pin_check_error_screen',
-                'remote_pin_check_next_state',
-                'local_pin_check_max_retries',
-                ].forEach( (element, index) => {
-                    parsed[element] = this.getEntry(data, index + 2)
-                });
-                addStateLinks(parsed, ['timeout_next_state', 'cancel_next_state', 'local_pin_check_good_next_state', 'local_pin_check_max_bad_pins_next_state', 'remote_pin_check_next_state']);
-                break;
+        case 'B':
+          parsed.description = 'PIN Entry state';
+          ['screen_number',
+          'timeout_next_state',
+          'cancel_next_state',
+          'local_pin_check_good_next_state',
+          'local_pin_check_max_bad_pins_next_state',
+          'local_pin_check_error_screen',
+          'remote_pin_check_next_state',
+          'local_pin_check_max_retries',
+          ].forEach( (element, index) => {
+              parsed[element] = this.getEntry(data, index + 2)
+          });
+          addStateLinks(parsed, ['timeout_next_state', 'cancel_next_state', 'local_pin_check_good_next_state', 'local_pin_check_max_bad_pins_next_state', 'remote_pin_check_next_state']);
+          break;
 
-            case 'b':
-                parsed.description = 'Customer selectable PIN state';
-                ['first_entry_screen_number',
-                'timeout_next_state',
-                'cancel_next_state',
-                'good_read_next_state',
-                'csp_fail_next_state',
-                'second_entry_screen_number',
-                'mismatch_first_entry_screen_number',
-                'extension_state',
-                ].forEach( (element, index) => {
-                    parsed[element] = this.getEntry(data, index + 2)
-                });
-                addStateLinks(parsed, ['timeout_next_state', 'cancel_next_state', 'good_read_next_state', 'csp_fail_next_state']);
-                break;
+        case 'b':
+          parsed.description = 'Customer selectable PIN state';
+          ['first_entry_screen_number',
+          'timeout_next_state',
+          'cancel_next_state',
+          'good_read_next_state',
+          'csp_fail_next_state',
+          'second_entry_screen_number',
+          'mismatch_first_entry_screen_number',
+          'extension_state',
+          ].forEach( (element, index) => {
+              parsed[element] = this.getEntry(data, index + 2)
+          });
+          addStateLinks(parsed, ['timeout_next_state', 'cancel_next_state', 'good_read_next_state', 'csp_fail_next_state']);
+          break;
 
-            case 'C':
-                parsed.description = 'Envelope Dispenser state';
-                ['next_state',
-                ].forEach( (element, index) => {
-                    parsed[element] = this.getEntry(data, index + 2)
-                });
-                addStateLinks(parsed, ['next_state',]);
-                break;
+        case 'C':
+          parsed.description = 'Envelope Dispenser state';
+          ['next_state',
+          ].forEach( (element, index) => {
+              parsed[element] = this.getEntry(data, index + 2)
+          });
+          addStateLinks(parsed, ['next_state',]);
+          break;
 
             case 'D':
                 parsed.description = 'PreSet Operation Code Buffer';
