@@ -28,13 +28,11 @@ function StatesService(settings, log, trace){
       return null;
     }
 
-
     /**
-     * [addState description]
-     * @param {[type]} state [description]
-     * @return {boolean}     [true if state was successfully added, false otherwise]
+     * [addStateString add state passed as a string]
+     * @param {[type]} state [string, e.g. '000A870500128002002002001127']
      */
-    this.addState = function(state){
+    this.addStateString = function(state){
       var parsed = this.parseState(state);
       if(parsed){
         this.states[parsed.number] = parsed;
@@ -45,6 +43,16 @@ function StatesService(settings, log, trace){
       }
       else
         return false;
+    };
+
+
+    /**
+     * [addState description]
+     * @param {[type]} state [description]
+     * @return {boolean}     [true if state was successfully added, false otherwise]
+     */
+    this.addState = function(state){
+      return this.addStateString(state);
     };
 
     /**
