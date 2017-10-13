@@ -490,6 +490,10 @@ function StatesService(settings, log, trace){
           ].forEach( (element, index) => {
             parsed[element] = this.getEntry(data, index + 2)
           });
+          addStateLinks(parsed, [
+            'language_match_next_state',
+            'no_language_match_next_state',
+          ]);
           break;
 
         case '.':
