@@ -460,7 +460,8 @@ describe("States", function() {
         no_usable_applications_next_state: '001', 
         icc_app_level_error_next_state: '001', 
         icc_hardware_level_error_next_state: '001', 
-        no_usable_applications_fallback_next_state: '167' 
+        no_usable_applications_fallback_next_state: '167',
+        states_to: [ '502', '001', '001', '001', '001', '167' ]
       };
       expect(s.parseState('501,000502001001001001167000')).toEqual(parsed);        
     });
@@ -472,6 +473,7 @@ describe("States", function() {
         type: '-', 
         language_match_next_state: '505', 
         no_language_match_next_state: '503',
+        states_to: [ '505', '503' ]
       };
       expect(s.parseState('502-505503000000000000000000')).toEqual(parsed);        
     });
@@ -500,6 +502,7 @@ describe("States", function() {
         reinit_method: '000', 
         chip_power_control: '000', 
         reset_terminal_pobjects: '000',
+        states_to: [ '026', '026' ]
       };
       expect(s.parseState('569;026026000000000000000000')).toEqual(parsed);        
     });

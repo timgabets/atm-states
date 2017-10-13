@@ -518,6 +518,10 @@ function StatesService(settings, log, trace){
           ].forEach( (element, index) => {
             parsed[element] = this.getEntry(data, index + 2)
           });
+          addStateLinks(parsed, [
+            'good_read_next_state',
+            'processing_not_performed_next_state',
+          ]);
           break;
 
         case '&':
