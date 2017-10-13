@@ -473,6 +473,14 @@ function StatesService(settings, log, trace){
           ].forEach( (element, index) => {
             parsed[element] = this.getEntry(data, index + 2)
           });
+          addStateLinks(parsed, [
+            'icc_init_success',
+            'card_not_smart_next_state',
+            'no_usable_applications_next_state',
+            'icc_app_level_error_next_state',
+            'icc_hardware_level_error_next_state',
+            'no_usable_applications_fallback_next_state',
+          ]);
           break;
 
         case '-':
