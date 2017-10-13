@@ -197,7 +197,8 @@ describe("States", function() {
         integer_multiple_value: 'HJV', 
         decimal_places: 'BN3', 
         currency_type: 'QWE', 
-        amount_check_condition: 'ASD' 
+        amount_check_condition: 'ASD',
+        states_to: [ '074', '07T' ]
       };
       expect(s.parseState('073G07407TYUGHJVBN3QWEASDZXC')).toEqual(parsed);        
     });
@@ -289,7 +290,8 @@ describe("States", function() {
         operation_codes_extension_state: '255',
         buffer_positions: '255',
         FDK_active_mask: '570',
-        multi_language_screens_extension_state: '255'
+        multi_language_screens_extension_state: '255',
+        states_to: [ '002', '131' ]
       };
       expect(s.parseState('172m138002131173255255570255')).toEqual(parsed);        
     });
@@ -303,7 +305,8 @@ describe("States", function() {
         device_available_next_state: '190',
         device_identifier_grafic: '113',
         device_unavailable_next_state: '201',
-        device_subcomponent_identifier: '00q'
+        device_subcomponent_identifier: '00q',
+        states_to: [ '190', '201' ]
       };
       expect(s.parseState('189U03519011320100q000000000')).toEqual(parsed);        
     });
@@ -412,7 +415,8 @@ describe("States", function() {
         transaction_type: '001', 
         amount_authorized_source: '031', 
         amount_other_source: '040', 
-        amount_too_large_next_state: '000'
+        amount_too_large_next_state: '000',
+        states_to: [ '560', '000' ]
       }
       expect(s.parseState('301?560001001031040000000000')).toEqual(parsed);        
     });
@@ -517,6 +521,7 @@ describe("States", function() {
         cancel_next_state: '131',
         error_next_state: '131',
         timeout_next_state: '002',
+        states_to: [ '085', '131', '131', '002' ]
       };
       expect(s.parseState('109&276085131131002004255000')).toEqual(parsed);        
     });

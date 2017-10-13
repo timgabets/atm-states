@@ -1,4 +1,5 @@
 October 2017
+	0.2.8   added state_to entry processing to ICC states
 	0.2.7	istanbul and jasmine moved to devDependencies
 	0.2.6 	addState() additional test cases
 	0.2.5	addStateArray() returns false with 'invalid state entry' logged when incorrect state entry passed

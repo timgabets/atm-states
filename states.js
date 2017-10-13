@@ -246,6 +246,7 @@ function StatesService(settings, log, trace){
           ].forEach( (element, index) => {
             parsed[element] = this.getEntry(data, index + 2)
           });
+          addStateLinks(parsed, ['amount_check_condition_true', 'amount_check_condition_false']);
           break;
 
         case 'H':
@@ -329,6 +330,7 @@ function StatesService(settings, log, trace){
           ].forEach( (element, index) => {
             parsed[element] = this.getEntry(data, index + 2)
           });
+          addStateLinks(parsed, ['timeout_next_state', 'cancel_next_state',]);
           break;
 
         case 'U':
@@ -341,6 +343,7 @@ function StatesService(settings, log, trace){
           ].forEach( (element, index) => {
             parsed[element] = this.getEntry(data, index + 2)
           });
+          addStateLinks(parsed, ['device_available_next_state', 'device_unavailable_next_state',]);
           break;
 
         case 'W':
@@ -431,6 +434,7 @@ function StatesService(settings, log, trace){
           ].forEach( (element, index) => {
             parsed[element] = this.getEntry(data, index + 2)
           });
+          addStateLinks(parsed, ['next_state', 'amount_too_large_next_state']);
           break;
 
         case 'z':
@@ -534,6 +538,12 @@ function StatesService(settings, log, trace){
           ].forEach( (element, index) => {
             parsed[element] = this.getEntry(data, index + 2)
           });
+          addStateLinks(parsed, [
+           'good_read_next_state',
+           'cancel_next_state',
+           'error_next_state',
+           'timeout_next_state',
+          ]);
           break;
 
         default:
