@@ -1,18 +1,19 @@
 October 2017
-	0.2.8   added state_to entry processing to ICC states
-	0.2.7	istanbul and jasmine moved to devDependencies
-	0.2.6 	addState() additional test cases
-	0.2.5	addStateArray() returns false with 'invalid state entry' logged when incorrect state entry passed
-	0.2.4 	delete()
-	0.2.3 	addStateArray() is now able to parse array of numbers
-	0.2.2   logging object passed to addStateArray()
-	0.2.1 	settings argument to StatesService() is now optional
-	0.2.0	addState() may now parse state passed as array object
-	0.1.7	Fixed README grammar
-	0.1.6	Added use cases
-	0.1.5 	Added electron-settings
-	0.1.4	Added test cases
-	0.1.3 	Added atm-state-levels
-	0.1.2	Added jasmine and istanbul
-	0.1.1 	Fixed package.json
-	0.1.0 	Initial commit
+   0.2.9    updatedv version numbre to upload to npm
+   0.2.8    added state_to entry processing to ICC states
+   0.2.7    istanbul and jasmine moved to devDependencies
+   0.2.6    addState() additional test cases
+   0.2.5    addStateArray() returns false with 'invalid state entry' logged when incorrect state entry passed
+   0.2.4    delete()
+   0.2.3    addStateArray() is now able to parse array of numbers
+   0.2.2    logging object passed to addStateArray()
+   0.2.1    settings argument to StatesService() is now optional
+   0.2.0    addState() may now parse state passed as array object
+   0.1.7    Fixed README grammar
+   0.1.6    Added use cases
+   0.1.5    Added electron-settings
+   0.1.4    Added test cases
+   0.1.3    Added atm-state-levels
+   0.1.2    Added jasmine and istanbul
+   0.1.1    Fixed package.json
+   0.1.0    Initial commit
