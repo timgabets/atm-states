@@ -55,7 +55,7 @@ test('should return null if state number is invalid', t => {
 });
 
 test('should parse state A properly', t => {
- let parsed = new Map();
+  let parsed = new Map();
   
   parsed.set('description', 'Card read state');
   parsed.set('number', '000'); 
