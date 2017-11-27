@@ -980,5 +980,47 @@ test('should delete state', t => {
   t.is(n.get('219'), undefined);
 });
  
+/**
+ * getEdges()
+ */
+test('should return empty edges when there is no states', t => {
+  let n = new StatesService();
 
+  let edges = [];
+  t.deepEqual(n.getEdges(), edges);
+});
 
+test('should return edges when single state added', t => {
+  let n = new StatesService();
+
+  let edges = [
+    {'from': '000', 'to': '500'},
+    {'from': '000', 'to': '127'}
+  ];
+  let states = ['000A870500128002002002001127',];
+      
+  t.is(n.add(states), true);
+  t.deepEqual(n.getEdges(), edges);
+});
+
+test('should return edges when added multiple states', t => {
+  let n = new StatesService();
+
+  let edges = [
+    {'from': '000', 'to': '500'},
+    {'from': '000', 'to': '127'},
+    {'from': '001', 'to': '003'},
+    {'from': '001', 'to': '004' }, 
+    {'from': '001', 'to': '004' }, 
+    {'from': '001', 'to': '127' }, 
+    {'from': '001', 'to': '127' }, 
+    {'from': '001', 'to': '127' }, 
+    {'from': '001', 'to': '127' }, 
+    {'from': '001', 'to': '127' }
+  ];
+  let states = ['000A870500128002002002001127', '001K003004004127127127127127'];
+      
+  t.is(n.add(states), true);
+  t.deepEqual(n.getEdges(), edges);
+});
+ 

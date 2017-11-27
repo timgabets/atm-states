@@ -71,7 +71,7 @@ describe("States", function() {
  })
 
   describe("getEdges()", function(){
-    it("should return empty edges where there is no states", function(){
+    it("should return empty edges when there is no states", function(){
       var edges = [];
       expect(s.getEdges()).toEqual(edges);
     })
