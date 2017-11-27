@@ -365,6 +365,17 @@ test('should parse state Y properly', t => {
   t.deepEqual(s.parseState('011Y023002131012255004052013'), parsed);        
 });
 
+test('should parse state Z properly', t => {
+  let parsed = new Map();
+        
+  parsed.set('description', 'Extension state');
+  parsed.set('number', '037');
+  parsed.set('type', 'Z');
+  parsed.set('entries', [ null, 'Z', '123', '456', '789', '0AB', 'CDE', 'FGH', 'IJK', 'LMN' ]); 
+  
+  t.deepEqual(s.parseState('037Z1234567890ABCDEFGHIJKLMN'), parsed);        
+});
+
 test('should parse state > properly', t => {
   let parsed = new Map();
        
