@@ -708,4 +708,42 @@ test('should return multiple state nodes', t => {
   ];
   t.deepEqual(n.getNodes(), nodes);
 });
+
+/**
+ * setStateLevels()
+ */
+test('should set state levels', t => {
+  let n = new StatesService();
+  
+  let states = ['000A870500128002002002001127', '001K003004004127127127127127', '002J132000132136132000081178', '003D024000128000000000000000', '004D024000000128000000000000'];
+  t.is(n.add(states), true);
+
+  n.setStateLevels(['000', '001', '002'], 14);
+
+  t.is(n.states['000'].get('level'), 14);  
+  t.is(n.states['001'].get('level'), 14);  
+  t.is(n.states['002'].get('level'), 14);  
+});
+ 
+/**
+ * clearStateLevels()
+ */
+
+test('should clear state levels', t => {
+  let n = new StatesService();
+
+  let states = ['000A870500128002002002001127', '001K003004004127127127127127', '002J132000132136132000081178', '003D024000128000000000000000', '004D024000000128000000000000'];
+  t.is(n.add(states), true);
+
+  n.setStateLevels(['000', '001', '002'], 22);
+
+  t.is(n.states['000'].get('level'), 22);  
+  t.is(n.states['001'].get('level'), 22);  
+  t.is(n.states['002'].get('level'), 22);  
+
+  n.clearStateLevels();
+
+  t.is(n.states['000'].get('level'), null );
+  t.is(n.states['001'].get('level'), null );
+});
  
