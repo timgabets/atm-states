@@ -365,3 +365,167 @@ test('should parse state Y properly', t => {
   t.deepEqual(s.parseState('011Y023002131012255004052013'), parsed);        
 });
 
+test('should parse state > properly', t => {
+  let parsed = new Map();
+       
+  parsed.set('description', 'Cash deposit state');
+  parsed.set('number', '037');
+  parsed.set('type', '>');
+  parsed.set('cancel_key_mask', '701');
+  parsed.set('deposit_key_mask', '928');
+  parsed.set('add_more_key_mask', '362');
+  parsed.set('refund_key_mask', '810');
+  parsed.set('extension_state_1', '280');
+  parsed.set('extension_state_2', '293');
+  parsed.set('extension_state_3', '751' );
+
+  t.deepEqual(s.parseState('037>701928362810280293751745'), parsed);        
+});
+
+test('should parse state / properly', t => {
+  let parsed = new Map();
+   
+  parsed.set('description', 'Complete ICC selection');
+  parsed.set('number', '299');
+  parsed.set('type', '/');
+  parsed.set('please_wait_screen_number', '025');
+  parsed.set('icc_app_name_template_screen_number', '860');
+  parsed.set('icc_app_name_screen_number', '861');
+  parsed.set('extension_state', '300');
+
+  t.deepEqual(s.parseState('299/025860861300000000000000'), parsed);        
+});
+
+test('should parse state ? properly', t => {
+  let parsed = new Map();
+   
+  parsed.set('description', 'Set ICC transaction data');
+  parsed.set('number', '301');
+  parsed.set('type', '?');
+  parsed.set('next_state', '560');
+  parsed.set('currency_type', '001');
+  parsed.set('transaction_type', '001');
+  parsed.set('amount_authorized_source', '031');
+  parsed.set('amount_other_source', '040');
+  parsed.set('amount_too_large_next_state', '000');
+  parsed.set('states_to', [ '560', '000' ]);
+
+  t.deepEqual(s.parseState('301?560001001031040000000000'), parsed);        
+});
+
+test('should parse state z properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'EMV ICC Application Switch state');
+  parsed.set('number', '462');
+  parsed.set('type', 'z');
+  parsed.set('next_state', '001');
+  parsed.set('terminal_aid_extension_1', '000');
+  parsed.set('next_state_extension_1', '000');
+  parsed.set('terminal_aid_extension_2', '019');
+  parsed.set('next_state_extension_2', '463');
+  parsed.set('terminal_aid_extension_3', '464');
+  parsed.set('next_state_extension_3', '465');
+
+  t.deepEqual(s.parseState('462z001000000019463464465000'), parsed);        
+});
+
+test('should parse state + properly', t => {
+  let parsed = new Map();
+   
+  parsed.set('description', 'Begin ICC Initialization state');
+  parsed.set('number', '500');
+  parsed.set('type', '+');
+  parsed.set('icc_init_started_next_state', '501');
+  parsed.set('icc_init_not_started_next_state', '001');
+  parsed.set('icc_init_requirement', '001');
+  parsed.set('automatic_icc_app_selection_flag', '000');
+  parsed.set('default_app_label_usage_flag', '000');
+  parsed.set('cardholder_confirmation_flag', '000');
+  parsed.set('states_to', [ '501', '001' ]);
+
+  t.deepEqual(s.parseState('500+501001001000000000000000'), parsed);        
+});
+
+test('should parse state , properly', t => {
+  let parsed = new Map();
+   
+  parsed.set('description', 'Complete ICC Initialization state');
+  parsed.set('number', '501');
+  parsed.set('type', ',');
+  parsed.set('please_wait_screen_number', '000');
+  parsed.set('icc_init_success', '502');
+  parsed.set('card_not_smart_next_state', '001');
+  parsed.set('no_usable_applications_next_state', '001');
+  parsed.set('icc_app_level_error_next_state', '001');
+  parsed.set('icc_hardware_level_error_next_state', '001');
+  parsed.set('no_usable_applications_fallback_next_state', '167');
+  parsed.set('states_to', [ '502', '001', '001', '001', '001', '167' ]);
+
+  t.deepEqual(s.parseState('501,000502001001001001167000'), parsed);        
+});
+
+test('should parse state - properly', t => {
+  let parsed = new Map();
+   
+  parsed.set('description', 'Automatic Language Selection state');
+  parsed.set('number', '502');
+  parsed.set('type', '-');
+  parsed.set('language_match_next_state', '505');
+  parsed.set('no_language_match_next_state', '503');
+  parsed.set('states_to', [ '505', '503' ]);
+
+  t.deepEqual(s.parseState('502-505503000000000000000000'), parsed);        
+});
+
+test('should parse state . properly', t => {
+  let parsed = new Map();
+   
+  parsed.set('description', 'Begin ICC Application Selection & Initialization state');
+  parsed.set('number', '505');
+  parsed.set('type', '.');
+  parsed.set('cardholder_selection_screen_number', '039');
+  parsed.set('FDK_template_screen_numbers_extension_state', '510');
+  parsed.set('action_keys_extension_state_number', '511');
+  parsed.set('exit_paths_extension_state_number', '512');
+  parsed.set('single_app_cardholder_selection_screen_number', '000');
+
+  t.deepEqual(s.parseState('505.039510511512000000000000'), parsed);        
+});
+
+test('should parse state ; properly', t => {
+  let parsed = new Map();
+   
+  parsed.set('description', 'ICC Re-initialize state');
+  parsed.set('number', '569');
+  parsed.set('type', ';');
+  parsed.set('good_read_next_state', '026');
+  parsed.set('processing_not_performed_next_state', '026');
+  parsed.set('reinit_method', '000');
+  parsed.set('chip_power_control', '000');
+  parsed.set('reset_terminal_pobjects', '000');
+  parsed.set('states_to', [ '026', '026' ]);
+
+  t.deepEqual(s.parseState('569;026026000000000000000000'), parsed);        
+});
+
+test('should parse state & properly', t => {
+  let parsed = new Map();
+   
+  parsed.set('description', 'Barcode Read State');
+  parsed.set('number', '109');
+  parsed.set('type', '&');
+  parsed.set('screen_number', '276');
+  parsed.set('good_read_next_state', '085');
+  parsed.set('cancel_next_state', '131');
+  parsed.set('error_next_state', '131');
+  parsed.set('timeout_next_state', '002');
+  parsed.set('states_to', [ '085', '131', '131', '002' ]);
+
+  t.deepEqual(s.parseState('109&276085131131002004255000'), parsed);        
+});
+
+test('should throw error if state data is invalid', t => {
+  t.deepEqual(s.parseState('000"8'), null);
+});
+
