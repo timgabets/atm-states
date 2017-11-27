@@ -626,6 +626,31 @@ test('should return false when empty string passed', t => {
   t.is(s.addState(''), false);
 });
 
+test('should overwrite previous state data', t => {
+  t.is(s.addState('000X444444444444444444444444'), true);
+  t.is(s.addState('000Y555555555555555555555555'), true);
+  t.is(s.addState('000Z666666666666666666666666'), true);
+  
+  let parsed = new Map();
+
+  parsed.set('description', 'Card read state');
+  parsed.set('number', '000');
+  parsed.set('type', 'A');
+  parsed.set('screen_number', '870');
+  parsed.set('good_read_next_state', '500');
+  parsed.set('error_screen_number', '128');
+  parsed.set('read_condition_1', '002');
+  parsed.set('read_condition_2', '002');
+  parsed.set('read_condition_3', '002');
+  parsed.set('card_return_flag', '001');
+  parsed.set('no_fit_match_next_state', '127');
+  parsed.set('states_to', [ '500', '127' ]);
+
+  t.is(s.addState('000A870500128002002002001127'), true);
+  t.deepEqual(s.get('000'), parsed);
+});
+
+
 test('should add valid state passed as string', t => {
   let parsed = new Map();
 
@@ -746,4 +771,196 @@ test('should clear state levels', t => {
   t.is(n.states['000'].get('level'), null );
   t.is(n.states['001'].get('level'), null );
 });
- 
+
+
+/**
+ * updateStateLevels()
+ */
+test('should update state levels with depth 1', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'Card read state');
+  parsed.set('number', '000');
+  parsed.set('type', 'A');
+  parsed.set('screen_number', '870');
+  parsed.set('good_read_next_state', '500');
+  parsed.set('error_screen_number', '128');
+  parsed.set('read_condition_1', '002');
+  parsed.set('read_condition_2', '002');
+  parsed.set('read_condition_3', '002');
+  parsed.set('card_return_flag', '001');
+  parsed.set('no_fit_match_next_state', '127');
+  parsed.set('states_to', [ '500', '127' ]);
+
+  t.is(s.addState('000A870500128002002002001127'), true);
+  t.deepEqual(s.get('000'), parsed);
+
+  t.is(s.addState('500Zxxxxxxxxxxxxxxxxxxxxxxxx'), true);
+  t.is(s.addState('127Zxxxxxxxxxxxxxxxxxxxxxxxx'), true);
+  s.updateStateLevels();
+
+  t.is(s.get('000').get('level'), 1);
+  t.is(s.get('500').get('level'), 2);
+  t.is(s.get('127').get('level'), 2);
+});
+
+test('should update state levels with depth 2', t => {
+  // Level 0
+  let A000 = new Map();
+
+  A000.set('description', 'Card read state');
+  A000.set('number', '000');
+  A000.set('type', 'A');
+  A000.set('screen_number', '870');
+  A000.set('good_read_next_state', '500');
+  A000.set('error_screen_number', '128');
+  A000.set('read_condition_1', '002');
+  A000.set('read_condition_2', '002');
+  A000.set('read_condition_3', '002');
+  A000.set('card_return_flag', '001');
+  A000.set('no_fit_match_next_state', '127');
+  A000.set('states_to', [ '500', '127' ]);
+
+  t.is(s.addState('000A870500128002002002001127'), true);
+  t.deepEqual(s.get('000'), A000);
+
+  // Level 1
+  let B500 = new Map();
+
+  B500.set('description', 'PIN Entry state');
+  B500.set('number', '500');
+  B500.set('type', 'B');
+  B500.set('screen_number', '024');
+  B500.set('timeout_next_state', '002');
+  B500.set('cancel_next_state', '131');
+  B500.set('local_pin_check_good_next_state', '026');
+  B500.set('local_pin_check_max_bad_pins_next_state', '026');
+  B500.set('local_pin_check_error_screen', '138');
+  B500.set('remote_pin_check_next_state', '026');
+  B500.set('local_pin_check_max_retries', '003');
+  B500.set('states_to', [ '002', '131', '026', '026', '026' ]);
+
+  t.is(s.addState('500B024002131026026138026003'), true);
+  t.deepEqual(s.get('500'), B500);
+
+  let D127 = new Map();
+
+  D127.set('description','PreSet Operation Code Buffer');
+  D127.set('number', '127');
+  D127.set('type', 'D');
+  D127.set('next_state', '024');
+  D127.set('clear_mask', '000');
+  D127.set('A_preset_mask', '128');
+  D127.set('B_preset_mask', '001');
+  D127.set('C_preset_mask', '002');
+  D127.set('D_preset_mask', '003');
+  D127.set('extension_state', '005');
+  D127.set('states_to', [ '024' ]);
+
+  t.is(s.addState('127D024000128001002003004005'), true);
+  t.deepEqual(s.get('127'), D127);
+
+  // Level 2
+  let J002 = new Map();
+        
+  J002.set('description',  'Close state');
+  J002.set('number',  '002');
+  J002.set('type',  'J');
+  J002.set('receipt_delivered_screen',  '132');
+  J002.set('next_state',  '000');
+  J002.set('no_receipt_delivered_screen',  '132');
+  J002.set('card_retained_screen_number',  '136');
+  J002.set('statement_delivered_screen_number',  '132');
+  J002.set('bna_notes_returned_screen',  '081');
+  J002.set('extension_state',  '178');
+
+  t.is(s.addState('002J132000132136132000081178'), true);
+  t.deepEqual(s.get('002'), J002);
+
+  let J131 = new Map();
+
+  J131.set('description', 'Close state');
+  J131.set('number', '131');
+  J131.set('type', 'J');
+  J131.set('receipt_delivered_screen', '132');
+  J131.set('next_state', '000');
+  J131.set('no_receipt_delivered_screen', '132');
+  J131.set('card_retained_screen_number', '136');
+  J131.set('statement_delivered_screen_number', '132');
+  J131.set('bna_notes_returned_screen', '081');
+  J131.set('extension_state', '178');
+
+  t.is(s.addState('131J132000132136132000081178'), true);
+  t.deepEqual(s.get('131'), J131);
+
+  let J026 = new Map();
+
+  J026.set('description', 'Close state');
+  J026.set('number', '026');
+  J026.set('type', 'J');
+  J026.set('receipt_delivered_screen', '132');
+  J026.set('next_state', '000');
+  J026.set('no_receipt_delivered_screen', '132');
+  J026.set('card_retained_screen_number', '136');
+  J026.set('statement_delivered_screen_number', '132');
+  J026.set('bna_notes_returned_screen', '081');
+  J026.set('extension_state', '178');
+
+  t.is(s.addState('026J132000132136132000081178'), true);
+  t.deepEqual(s.get('026'), J026);
+
+  // Updating levels
+  s.updateStateLevels();
+
+  t.is(s.get('000').get('level'), 1);
+  t.is(s.get('500').get('level'), 2);
+  t.is(s.get('127').get('level'), 2);
+  t.is(s.get('002').get('level'), 3);
+  t.is(s.get('131').get('level'), 3);
+  t.is(s.get('026').get('level'), 3);
+});
+
+/*
+test('should not change level if states_to contains the state itself', t => {
+      // Level 0
+      var A000 = { 
+        number: '000', 
+        type: 'A', 
+        description: 'Card read state',
+        screen_number: '870', 
+        good_read_next_state: '219', 
+        error_screen_number: '128', 
+        read_condition_1: '002', 
+        read_condition_2: '002', 
+        read_condition_3: '002', 
+        card_return_flag: '001', 
+        no_fit_match_next_state: '127',
+        states_to: [ '219', '127' ]
+      };
+      t.is(s.addState('000A870219128002002002001127'), true);
+      t.is(s.get('000'), A000);
+
+      var F219 = { 
+        number: '219', 
+        type: 'F',
+        description: 'Amount entry state',
+        screen_number: '069', 
+        timeout_next_state: '002', 
+        cancel_next_state: '131', 
+        FDK_A_next_state: '220', 
+        FDK_B_next_state: '255', 
+        FDK_C_next_state: '220', 
+        FDK_D_next_state: '219', 
+        amount_display_screen: '006',
+        states_to: [ '002', '131', '220', '255', '220', '219' ]
+      };
+      t.is(s.addState('219F069002131220255220219006'), true);   
+      t.is(s.get('219'), F219);
+
+      s.updateStateLevels();
+      t.is(s.get('000')['level'], 1);
+      t.is(s.get('219')['level'], 2);
+
+});
+*/ 
+
