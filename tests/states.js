@@ -614,4 +614,53 @@ test('should add valid state passed as array of numbers', t => {
   t.deepEqual(s.get('002'), parsed);
 });
 
+/**
+ * addState() test cases
+ */
+
+test('should return false when empty data passed', t => {
+  t.is(s.addState(), false);
+});
+
+test('should return false when empty string passed', t => {
+  t.is(s.addState(''), false);
+});
+
+test('should add valid state passed as string', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'Card read state');
+  parsed.set('number', '000');
+  parsed.set('type', 'A');
+  parsed.set('screen_number', '870');
+  parsed.set('good_read_next_state', '500');
+  parsed.set('error_screen_number', '128');
+  parsed.set('read_condition_1', '002');
+  parsed.set('read_condition_2', '002');
+  parsed.set('read_condition_3', '002');
+  parsed.set('card_return_flag', '001');
+  parsed.set('no_fit_match_next_state', '127');
+  parsed.set('states_to', [ '500', '127' ]);
+
+  t.is(s.addState('000A870500128002002002001127'), true);
+  t.deepEqual(s.get('000'), parsed);
+});
+
+test('should add valid state passed as array of numbers', t => {
+  let parsed = new Map();
+  
+  parsed.set('description', 'Close state');
+  parsed.set('number', '002');
+  parsed.set('type', 'J');
+  parsed.set('receipt_delivered_screen', '132');
+  parsed.set('next_state', '000');
+  parsed.set('no_receipt_delivered_screen', '132');
+  parsed.set('card_retained_screen_number', '136');
+  parsed.set('statement_delivered_screen_number', '132');
+  parsed.set('bna_notes_returned_screen', '120');
+  parsed.set('extension_state', '264' );
+
+  t.is(s.addState([2, 'J', 132, 0, 132, 136, 132, 0, 120, 264, 0]), true);
+  t.deepEqual(s.get('002'), parsed);
+});
 
