@@ -1,5 +1,5 @@
 October 2017
-   0.2.9    updatedv version numbre to upload to npm
+   0.2.9    updated version number to upload to npm
    0.2.8    added state_to entry processing to ICC states
    0.2.7    istanbul and jasmine moved to devDependencies
    0.2.6    addState() additional test cases

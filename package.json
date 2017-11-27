@@ -4,13 +4,25 @@
   "description": "ATM States Service",
   "main": "states.js",
   "scripts": {
-    "test": "istanbul cover jasmine"
+    "test": "ava"
   },
   "repository": "https://github.com/timgabets/atm-states",
   "keywords": [
     "ATM",
     "States"
   ],
+   "ava": {
+    "files": [
+      "tests/*.js"
+    ],
+    "source": [
+      "lib/**/*.{js}"
+    ],   
+    "concurrency": 5,
+    "failFast": true,
+    "failWithoutAssertions": false,
+    "powerAssert": false
+  },
   "author": {
     "name": "Tim Gabets",
     "email": "tim@gabets.ru",
@@ -22,6 +34,7 @@
     "jasmine": "^2.8.0"
   },
   "dependencies": {
-    "atm-state-levels": "^1.0.6"
+    "atm-state-levels": "^1.0.6",
+    "ava": "^0.23.0"
   }
 }
