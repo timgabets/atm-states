@@ -920,47 +920,46 @@ test('should update state levels with depth 2', t => {
   t.is(s.get('026').get('level'), 3);
 });
 
-/*
 test('should not change level if states_to contains the state itself', t => {
-      // Level 0
-      var A000 = { 
-        number: '000', 
-        type: 'A', 
-        description: 'Card read state',
-        screen_number: '870', 
-        good_read_next_state: '219', 
-        error_screen_number: '128', 
-        read_condition_1: '002', 
-        read_condition_2: '002', 
-        read_condition_3: '002', 
-        card_return_flag: '001', 
-        no_fit_match_next_state: '127',
-        states_to: [ '219', '127' ]
-      };
-      t.is(s.addState('000A870219128002002002001127'), true);
-      t.is(s.get('000'), A000);
+  // Level 0
+  let A000 = new Map();
 
-      var F219 = { 
-        number: '219', 
-        type: 'F',
-        description: 'Amount entry state',
-        screen_number: '069', 
-        timeout_next_state: '002', 
-        cancel_next_state: '131', 
-        FDK_A_next_state: '220', 
-        FDK_B_next_state: '255', 
-        FDK_C_next_state: '220', 
-        FDK_D_next_state: '219', 
-        amount_display_screen: '006',
-        states_to: [ '002', '131', '220', '255', '220', '219' ]
-      };
-      t.is(s.addState('219F069002131220255220219006'), true);   
-      t.is(s.get('219'), F219);
+  A000.set('description', 'Card read state');
+  A000.set('number', '000');
+  A000.set('type', 'A');
+  A000.set('screen_number', '870');
+  A000.set('good_read_next_state', '219');
+  A000.set('error_screen_number', '128');
+  A000.set('read_condition_1', '002');
+  A000.set('read_condition_2', '002');
+  A000.set('read_condition_3', '002');
+  A000.set('card_return_flag', '001');
+  A000.set('no_fit_match_next_state', '127');
+  A000.set('states_to', [ '219', '127' ]);
 
-      s.updateStateLevels();
-      t.is(s.get('000')['level'], 1);
-      t.is(s.get('219')['level'], 2);
+  t.is(s.addState('000A870219128002002002001127'), true);
+  t.deepEqual(s.get('000'), A000);
 
+  let F219 = new Map();
+
+  F219.set('description', 'Amount entry state');
+  F219.set('number', '219');
+  F219.set('type', 'F');
+  F219.set('screen_number', '069');
+  F219.set('timeout_next_state', '002');
+  F219.set('cancel_next_state', '131');
+  F219.set('FDK_A_next_state', '220');
+  F219.set('FDK_B_next_state', '255');
+  F219.set('FDK_C_next_state', '220');
+  F219.set('FDK_D_next_state', '219');
+  F219.set('amount_display_screen', '006');
+  F219.set('states_to', [ '002', '131', '220', '255', '220', '219' ]);
+
+  t.is(s.addState('219F069002131220255220219006'), true);   
+  t.deepEqual(s.get('219'), F219);
+
+  s.updateStateLevels();
+  t.is(s.get('000').get('level'), 1);
+  t.is(s.get('219').get('level'), 2);
 });
-*/ 
 
