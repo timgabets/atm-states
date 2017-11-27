@@ -215,4 +215,153 @@ test('should parse state H properly', t => {
   t.deepEqual(s.parseState('089H564002131090255090089003'), parsed);    
 });
 
+test('should parse state I properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'Transaction request state');
+  parsed.set('number', '027');
+  parsed.set('type', 'I');
+  parsed.set('screen_number', '025');
+  parsed.set('timeout_next_state', '146');
+  parsed.set('send_track2', '001');
+  parsed.set('send_track1_track3', '000');
+  parsed.set('send_operation_code', '001');
+  parsed.set('send_amount_data', '001');
+  parsed.set('send_pin_buffer', '001');
+  parsed.set('send_buffer_B_buffer_C', '003');
+  parsed.set('states_to', [ '146' ]);
+
+  t.deepEqual(s.parseState('027I025146001000001001001003'), parsed);        
+});
+
+test('should parse state J properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'Close state');
+  parsed.set('number', '002');
+  parsed.set('type', 'J');
+  parsed.set('receipt_delivered_screen', '132');
+  parsed.set('next_state', '000');
+  parsed.set('no_receipt_delivered_screen', '132');
+  parsed.set('card_retained_screen_number', '136');
+  parsed.set('statement_delivered_screen_number', '132');
+  parsed.set('bna_notes_returned_screen', '081');
+  parsed.set('extension_state', '178');
+
+  t.deepEqual(s.parseState('002J132000132136132000081178'), parsed);        
+});
+
+test('should parse state k properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'Smart FIT check state');
+  parsed.set('number', '515');
+  parsed.set('type', 'k');
+  parsed.set('good_read_next_state', '001');
+  parsed.set('card_return_flag', '001');
+  parsed.set('no_fit_match_next_state', '127');
+  parsed.set('states_to', [ '001' ]);
+
+  t.deepEqual(s.parseState('515k000001000000000000001127'), parsed);        
+});
+
+test('should parse state K properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'FIT Switch state');
+  parsed.set('number', '001');
+  parsed.set('type', 'K');
+  parsed.set('states_to', [ '003', '004', '004', '127', '127', '127', '127', '127' ] );
+
+  t.deepEqual(s.parseState('001K003004004127127127127127'), parsed);        
+});
+
+test('should parse state m properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'PIN & Language Select State');
+  parsed.set('number', '172');
+  parsed.set('type', 'm');
+  parsed.set('screen_number', '138');
+  parsed.set('timeout_next_state', '002');
+  parsed.set('cancel_next_state', '131');
+  parsed.set('next_state_options_extension_state', '173');
+  parsed.set('operation_codes_extension_state', '255');
+  parsed.set('buffer_positions', '255');
+  parsed.set('FDK_active_mask', '570');
+  parsed.set('multi_language_screens_extension_state', '255');
+  parsed.set('states_to', [ '002', '131' ]);
+  t.deepEqual(s.parseState('172m138002131173255255570255'), parsed);        
+});
+
+test('should parse state U properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'Device Fitness Flow Select State');
+  parsed.set('number', '189');
+  parsed.set('type', 'U');
+  parsed.set('device_number', '035');
+  parsed.set('device_available_next_state', '190');
+  parsed.set('device_identifier_grafic', '113');
+  parsed.set('device_unavailable_next_state', '201');
+  parsed.set('device_subcomponent_identifier', '00q');
+  parsed.set('states_to', [ '190', '201' ]);
+  t.deepEqual(s.parseState('189U03519011320100q000000000'), parsed);        
+});
+
+test('should parse state W properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'FDK Switch state');
+  parsed.set('number', '035');
+  parsed.set('type', 'W');
+  parsed.set('states', { 
+    A: '181', 
+    B: '037', 
+    C: '255', 
+    D: '127', 
+    F: '031', 
+    G: '034', 
+    H: '250', 
+    I: '186' 
+  });
+  parsed.set('states_to', [ '181', '037', '255', '127', '031', '034', '250', '186' ]);
+
+  t.deepEqual(s.parseState('035W181037255127031034250186'), parsed);        
+});
+
+test('should parse state X properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'FDK information entry state');
+  parsed.set('number', '037');
+  parsed.set('type', 'X');
+  parsed.set('screen_number', '037');
+  parsed.set('timeout_next_state', '002');
+  parsed.set('cancel_next_state', '131');
+  parsed.set('FDK_next_state', '038');
+  parsed.set('extension_state', '039');
+  parsed.set('buffer_id', '010');
+  parsed.set('FDK_active_mask', '255');
+  parsed.set('states_to', [ '002', '131', '038' ]);
+  t.deepEqual(s.parseState('037X037002131038039010255000'), parsed);        
+});
+
+test('should parse state Y properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'Eight FDK selection state');
+  parsed.set('number', '011');
+  parsed.set('type', 'Y');
+  parsed.set('screen_number', '023');
+  parsed.set('timeout_next_state', '002');
+  parsed.set('cancel_next_state', '131');
+  parsed.set('FDK_next_state', '012');
+  parsed.set('extension_state', '255');
+  parsed.set('buffer_positions', '004');
+  parsed.set('FDK_active_mask', '052');
+  parsed.set('multi_language_screens', '013');
+  parsed.set('states_to', [ '002', '131', '012' ]);
+  t.deepEqual(s.parseState('011Y023002131012255004052013'), parsed);        
+});
 
