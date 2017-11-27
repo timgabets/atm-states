@@ -963,3 +963,22 @@ test('should not change level if states_to contains the state itself', t => {
   t.is(s.get('219').get('level'), 2);
 });
 
+/**
+ * delete()
+ */
+test('should return false if state does not exist', t => {
+  let n = new StatesService();
+
+  t.is(n.delete('219'), false);
+});
+
+test('should delete state', t => {
+  let n = new StatesService();
+
+  t.is(n.addState('219F069002131220255220219006'), true);    
+  t.is(n.delete('219'), true);
+  t.is(n.get('219'), undefined);
+});
+ 
+
+

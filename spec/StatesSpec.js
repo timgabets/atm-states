@@ -117,18 +117,7 @@ describe("States", function() {
  });
 
   describe('delete()', function(){
-    it('should return false if state does not exist', function(){
-      expect(s.delete('219')).toBeFalsy();
-    });
-
-    it('should delete state', function(){
-      expect(s.addState('219F069002131220255220219006')).toBeTruthy();   
-      expect(s.get('219')).not.toBeUndefined();
-      
-      expect(s.delete('219')).toBeTruthy();
-      expect(s.get('219')).toBeUndefined();
-    });
-  });
+ });
 
 
 });
