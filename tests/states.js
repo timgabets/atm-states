@@ -682,3 +682,30 @@ test('should return false if one of the states is invalid', t => {
   t.is(s.add(states), false);
 });
  
+/**
+ * getNodes()
+ */
+
+test('should return single state node', t => {
+  const n = new StatesService();
+
+  let state = '000A870500128002002002001127';
+  t.is(n.addState(state), true);
+
+  let nodes = [{'id': '000', 'label': '000 A', 'level': 1}];
+  t.deepEqual(n.getNodes(), nodes);
+});
+
+test('should return multiple state nodes', t => {
+  const n = new StatesService();
+  
+  let states = ['000A870500128002002002001127', '500K003004004127127127127127'];
+  t.is(n.add(states), true);
+      
+  let nodes = [
+    { 'id': '500', 'label': '500 K', 'level': 2 },
+    { 'id': '000', 'label': '000 A', 'level': 1 }, 
+  ];
+  t.deepEqual(n.getNodes(), nodes);
+});
+ 

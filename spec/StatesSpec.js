@@ -536,25 +536,7 @@ describe("States", function() {
  });
 
   describe("getNodes()", function(){
-    it("should return single state node", function(){
-      var state = '000A870500128002002002001127';
-      expect(s.addState(state)).toBeTruthy();
-
-      var nodes = [{'id': '000', 'label': '000 A', 'level': 1}];
-      expect(s.getNodes()).toEqual(nodes);
-    });
-
-    it("should return multiple state nodes", function(){
-      var states = ['000A870500128002002002001127', '500K003004004127127127127127'];
-      expect(s.add(states)).toBeTruthy();
-      
-      var nodes = [
-        { 'id': '500', 'label': '500 K', 'level': 2 },
-        { 'id': '000', 'label': '000 A', 'level': 1 }, 
-      ];
-      expect(s.getNodes()).toEqual(nodes);
-    })
-  })
+ })
 
   describe("getEdges()", function(){
     it("should return empty edges where there is no states", function(){
