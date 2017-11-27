@@ -68,6 +68,7 @@ test('should parse state A properly', t => {
   parsed.set('read_condition_3', '002');
   parsed.set('card_return_flag', '001');
   parsed.set('no_fit_match_next_state', '127');
+  parsed.set('states_to', ['500', '127']);
   
   t.deepEqual(s.parseState('000A870500128002002002001127'), parsed);
 });
