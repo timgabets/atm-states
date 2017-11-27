@@ -4,20 +4,20 @@
   "description": "ATM States Service",
   "main": "states.js",
   "scripts": {
-    "test": "ava"
+    "test": "eslint tests/** lib** && ava"
   },
   "repository": "https://github.com/timgabets/atm-states",
   "keywords": [
     "ATM",
     "States"
   ],
-   "ava": {
+  "ava": {
     "files": [
       "tests/*.js"
     ],
     "source": [
       "lib/**/*.{js}"
-    ],   
+    ],
     "concurrency": 5,
     "failFast": true,
     "failWithoutAssertions": false,
@@ -30,11 +30,11 @@
   },
   "license": "LGPL-2.1",
   "devDependencies": {
-    "istanbul": "^0.4.5",
-    "jasmine": "^2.8.0"
+    "ava": "^0.23.0",
+    "eslint": "^4.12.0",
+    "eslint-plugin-import": "^2.8.0"
   },
   "dependencies": {
-    "atm-state-levels": "^1.0.6",
-    "ava": "^0.23.0"
-  }
+    "atm-state-levels": "^1.0.6"
+ }
 }
