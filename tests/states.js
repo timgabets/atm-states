@@ -664,3 +664,21 @@ test('should add valid state passed as array of numbers', t => {
   t.deepEqual(s.get('002'), parsed);
 });
 
+/**
+ * add()
+ */
+test('should add states passed as array', t => {
+  let states = ['000A870500128002002002001127', '001K003004004127127127127127', '002J132000132136132000081178', '003D024000128000000000000000', '004D024000000128000000000000'];
+  t.is(s.add(states), true);
+});
+
+test('should add single state passed as a string', t => {
+  let state = '000A870500128002002002001127';
+  t.is(s.add(state), true);
+});
+
+test('should return false if one of the states is invalid', t => {
+  let states = ['xyzAxyz500128002002002001127', '004D024000000128000000000000'];
+  t.is(s.add(states), false);
+});
+ 
