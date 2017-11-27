@@ -537,6 +537,81 @@ test('should parse state & properly', t => {
 });
 
 test('should throw error if state data is invalid', t => {
-  t.deepEqual(s.parseState('000"8'), null);
+  t.deepEqual(s.parseState('000~8'), null);
 });
+
+/**
+ * addStateArray() test cases
+ */
+
+test('should add valid state passed as array object', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'Card read state');
+  parsed.set('number', '000');
+  parsed.set('type', 'A');
+  parsed.set('screen_number', '870');
+  parsed.set('good_read_next_state', '500');
+  parsed.set('error_screen_number', '128');
+  parsed.set('read_condition_1', '002');
+  parsed.set('read_condition_2', '002');
+  parsed.set('read_condition_3', '002');
+  parsed.set('card_return_flag', '001');
+  parsed.set('no_fit_match_next_state', '127');
+  parsed.set('states_to', [ '500', '127' ]);
+
+  t.deepEqual(s.addStateArray(['000', 'A', '870', '500', '128', '002', '002', '002', '001', '127']), true);
+  t.deepEqual(s.get('000'), parsed);
+});
+
+test('should add valid state passed as array object with unpadded values', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'Card read state');
+  parsed.set('number', '000');
+  parsed.set('type', 'A');
+  parsed.set('screen_number', '870');
+  parsed.set('good_read_next_state', '500');
+  parsed.set('error_screen_number', '128');
+  parsed.set('read_condition_1', '002');
+  parsed.set('read_condition_2', '002');
+  parsed.set('read_condition_3', '002');
+  parsed.set('card_return_flag', '021');
+  parsed.set('no_fit_match_next_state', '127');
+  parsed.set('states_to', [ '500', '127' ]);
+
+  t.deepEqual(s.addStateArray(['0', 'A', '870', '500', '128', '2', '2', '2', '21', '127']), true);
+  t.deepEqual(s.get('000'), parsed);
+});
+
+test('should not add state with the incorrect state entries', t => {
+  t.deepEqual(s.addStateArray(['0', 'A', '870', '500', '128', '2', '', '0', '21', '9999999999']), false);
+});
+
+test('should not add state with the incorrect state type', t => {
+  t.deepEqual(s.addStateArray(['0', 'AX', '870', '500', '128', '2', '2', '0', '21', '000']), false);
+});
+
+test('should not add state with the empty state type', t => {
+  t.deepEqual(s.addStateArray(['0', '', '870', '500', '128', '2', '2', '0', '21', '000']), false);
+});
+
+test('should add valid state passed as array of numbers', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'Close state');
+  parsed.set('number', '002');
+  parsed.set('type', 'J');
+  parsed.set('receipt_delivered_screen', '132');
+  parsed.set('next_state', '000');
+  parsed.set('no_receipt_delivered_screen', '132');
+  parsed.set('card_retained_screen_number', '136');
+  parsed.set('statement_delivered_screen_number', '132');
+  parsed.set('bna_notes_returned_screen', '120');
+  parsed.set('extension_state', '264' );
+
+  t.deepEqual(s.addStateArray([2, 'J', 132, 0, 132, 136, 132, 0, 120, 264, 0]), true);
+  t.deepEqual(s.get('002'), parsed);
+});
+
 
