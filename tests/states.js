@@ -111,4 +111,108 @@ test('should parse state b properly', t => {
   t.deepEqual(s.parseState('230b063002131232000064065231'), parsed);
 });
 
+test('should parse state C properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'Envelope Dispenser state');
+  parsed.set('number', '634');
+  parsed.set('type', 'C');
+  parsed.set('next_state', '631');
+  parsed.set('states_to', [ '631' ]);
+      
+  t.deepEqual(s.parseState('634C631791092174618362840503'), parsed);
+});
+
+test('should parse state D properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description','PreSet Operation Code Buffer');
+  parsed.set('number', '003');
+  parsed.set('type', 'D');
+  parsed.set('next_state', '024');
+  parsed.set('clear_mask', '000');
+  parsed.set('A_preset_mask', '128');
+  parsed.set('B_preset_mask', '001');
+  parsed.set('C_preset_mask', '002');
+  parsed.set('D_preset_mask', '003');
+  parsed.set('extension_state', '005');
+  parsed.set('states_to', [ '024' ]);
+
+  t.deepEqual(s.parseState('003D024000128001002003004005'), parsed);
+});
+
+test('should parse state E properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'Four FDK selection state');
+  parsed.set('number', '141');
+  parsed.set('type', 'E');
+  parsed.set('screen_number', '141');
+  parsed.set('timeout_next_state', '002');
+  parsed.set('cancel_next_state', '131');
+  parsed.set('FDK_A_next_state', '255');
+  parsed.set('FDK_B_next_state', '255');
+  parsed.set('FDK_C_next_state', '571');
+  parsed.set('FDK_D_next_state', '132');
+  parsed.set('buffer_location', '000');
+  parsed.set('states_to', [ '002', '131', '255', '255', '571', '132' ]);
+
+  t.deepEqual(s.parseState('141E141002131255255571132000'), parsed);    
+});
+
+test('should parse state F properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'Amount entry state');
+  parsed.set('number', '219');
+  parsed.set('type', 'F');
+  parsed.set('screen_number', '069');
+  parsed.set('timeout_next_state', '002');
+  parsed.set('cancel_next_state', '131');
+  parsed.set('FDK_A_next_state', '220');
+  parsed.set('FDK_B_next_state', '255');
+  parsed.set('FDK_C_next_state', '220');
+  parsed.set('FDK_D_next_state', '219');
+  parsed.set('amount_display_screen', '006');
+  parsed.set('states_to', [ '002', '131', '220', '255', '220', '219' ]);
+  
+  t.deepEqual(s.parseState('219F069002131220255220219006'), parsed);    
+});
+
+test('should parse state G properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'Amount check state');
+  parsed.set('number', '073');
+  parsed.set('type', 'G');
+  parsed.set('amount_check_condition_true', '074');
+  parsed.set('amount_check_condition_false', '07T');
+  parsed.set('buffer_to_check', 'YUG');
+  parsed.set('integer_multiple_value', 'HJV');
+  parsed.set('decimal_places', 'BN3');
+  parsed.set('currency_type', 'QWE');
+  parsed.set('amount_check_condition', 'ASD');
+  parsed.set('states_to', [ '074', '07T' ]);
+  t.deepEqual(s.parseState('073G07407TYUGHJVBN3QWEASDZXC'), parsed);    
+});
+
+test('should parse state H properly', t => {
+  let parsed = new Map();
+
+  parsed.set('description', 'Information Entry State');
+  parsed.set('number', '089');
+  parsed.set('type', 'H');
+  parsed.set('screen_number', '564');
+  parsed.set('timeout_next_state', '002');
+  parsed.set('cancel_next_state', '131');
+  parsed.set('FDK_A_next_state', '090');
+  parsed.set('FDK_B_next_state', '255');
+  parsed.set('FDK_C_next_state', '090');
+  parsed.set('FDK_D_next_state', '089');
+  parsed.set('buffer_and_display_params', '003');
+  parsed.set('states_to', [ '002', '131', '090', '255', '090', '089' ]);
+
+  t.deepEqual(s.parseState('089H564002131090255090089003'), parsed);    
+});
+
 
