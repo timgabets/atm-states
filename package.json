@@ -4,7 +4,7 @@
   "description": "ATM States Service",
   "main": "lib/states.js",
   "scripts": {
-    "test": "eslint tests/** lib** && ava"
+    "test": "eslint tests/** lib** && nyc --reporter=html ava"
   },
   "repository": "https://github.com/timgabets/atm-states",
   "keywords": [
@@ -31,10 +31,11 @@
   "license": "LGPL-2.1",
   "devDependencies": {
     "ava": "^0.23.0",
+    "nyc": "^11.3.0",
     "eslint": "^4.12.0",
     "eslint-plugin-import": "^2.8.0"
   },
   "dependencies": {
     "atm-state-levels": "^1.0.6"
- }
+  }
 }
