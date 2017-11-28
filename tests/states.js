@@ -997,9 +997,9 @@ test('should return edges when single state added', t => {
     {'from': '000', 'to': '500'},
     {'from': '000', 'to': '127'}
   ];
-  let states = ['000A870500128002002002001127',];
+  
+  t.is(n.addState('000A870500128002002002001127'), true);    
       
-  t.is(n.add(states), true);
   t.deepEqual(n.getEdges(), edges);
 });
 
