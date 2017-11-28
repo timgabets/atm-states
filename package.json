@@ -2,7 +2,7 @@
   "name": "atm-states",
   "version": "0.3.0",
   "description": "ATM States Service",
-  "main": "states.js",
+  "main": "lib/states.js",
   "scripts": {
     "test": "eslint tests/** lib** && ava"
   },
