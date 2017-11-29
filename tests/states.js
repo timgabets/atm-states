@@ -1154,3 +1154,64 @@ test('should restore states from settings', t => {
   t.deepEqual(n.restoreStates(states_from_settings), states);
 });
 
+test('should prepare states to be saved to settings', t => {
+  const n = new StatesService();
+
+  let B500 = new Map();
+
+  B500.set('description', 'PIN Entry state');
+  B500.set('number', '500');
+  B500.set('type', 'B');
+  B500.set('screen_number', '024');
+  B500.set('timeout_next_state', '002');
+  B500.set('cancel_next_state', '131');
+  B500.set('local_pin_check_good_next_state', '026');
+  B500.set('local_pin_check_max_bad_pins_next_state', '026');
+  B500.set('local_pin_check_error_screen', '138');
+  B500.set('remote_pin_check_next_state', '026');
+  B500.set('local_pin_check_max_retries', '003');
+  B500.set('states_to', [ '002', '131', '026', '026', '026' ]);
+
+  let D127 = new Map();
+
+  D127.set('description','PreSet Operation Code Buffer');
+  D127.set('number', '127');
+  D127.set('type', 'D');
+  D127.set('next_state', '024');
+  D127.set('clear_mask', '000');
+  D127.set('A_preset_mask', '128');
+  D127.set('B_preset_mask', '001');
+  D127.set('C_preset_mask', '002');
+  D127.set('D_preset_mask', '003');
+  D127.set('extension_state', '005');
+  D127.set('states_to', [ '024' ]);
+
+  let J002 = new Map();
+        
+  J002.set('description',  'Close state');
+  J002.set('number',  '002');
+  J002.set('type',  'J');
+  J002.set('receipt_delivered_screen',  '132');
+  J002.set('next_state',  '000');
+  J002.set('no_receipt_delivered_screen',  '132');
+  J002.set('card_retained_screen_number',  '136');
+  J002.set('statement_delivered_screen_number',  '132');
+  J002.set('bna_notes_returned_screen',  '081');
+  J002.set('extension_state',  '178');
+
+  [B500, D127, J002].forEach( state => {
+    n.states[state.get('number')] = state;
+  });
+
+  [B500, D127, J002].forEach( state => {
+    t.deepEqual(n.get(state.get('number')), state);
+  });
+
+  let states_prepared = {};
+  [B500, D127, J002].forEach( state => {
+    states_prepared[state.get('number')] = n.convertMapToObject(state);
+  });
+  
+  t.deepEqual(n.prepareStatesToSave(), states_prepared);
+});
+
