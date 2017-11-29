@@ -1023,4 +1023,40 @@ test('should return edges when added multiple states', t => {
   t.is(n.add(states), true);
   t.deepEqual(n.getEdges(), edges);
 });
- 
+
+test('should convert Map state to Object state', t => {
+  const n = new StatesService();
+
+  let map = new Map();
+
+  map.set('description', 'Amount entry state');
+  map.set('number', '219');
+  map.set('type', 'F');
+  map.set('screen_number', '069');
+  map.set('timeout_next_state', '002');
+  map.set('cancel_next_state', '131');
+  map.set('FDK_A_next_state', '220');
+  map.set('FDK_B_next_state', '255');
+  map.set('FDK_C_next_state', '220');
+  map.set('FDK_D_next_state', '219');
+  map.set('amount_display_screen', '006');
+  map.set('states_to', [ '002', '131', '220', '255', '220', '219' ]);
+
+  let object = {
+    'description': 'Amount entry state',
+    'number': '219',
+    'type': 'F',
+    'screen_number': '069',
+    'timeout_next_state': '002',
+    'cancel_next_state': '131',
+    'FDK_A_next_state': '220',
+    'FDK_B_next_state': '255',
+    'FDK_C_next_state': '220',
+    'FDK_D_next_state': '219',
+    'amount_display_screen': '006',
+    'states_to': [ '002', '131', '220', '255', '220', '219' ]
+  };
+
+  t.deepEqual(n.convertToObject(map), object);
+});
+
