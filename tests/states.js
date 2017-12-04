@@ -180,7 +180,6 @@ test('should parse state E properly', t => {
   let states_to = new Set();
   states_to.add('002');
   states_to.add('131');
-  states_to.add('255');
   states_to.add('571');
   states_to.add('132');
   parsed.set('states_to', states_to);
@@ -207,7 +206,6 @@ test('should parse state F properly', t => {
   states_to.add('002');
   states_to.add('131');
   states_to.add('220');
-  states_to.add('255');
   states_to.add('219');
   parsed.set('states_to', states_to);
   
@@ -255,7 +253,6 @@ test('should parse state H properly', t => {
   states_to.add('002');
   states_to.add('131');
   states_to.add('090');
-  states_to.add('255');
   states_to.add('089');
   parsed.set('states_to', states_to);
 
@@ -1100,7 +1097,6 @@ test('should not change level if states_to contains the state itself', t => {
   F219_states_to.add('002');
   F219_states_to.add('131');
   F219_states_to.add('220');
-  F219_states_to.add('255');
   F219_states_to.add('219');
   F219.set('states_to', F219_states_to);
 
