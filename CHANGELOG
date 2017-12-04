@@ -1,3 +1,6 @@
+December 2017 
+   0.4.2    Using ES6 Set() to store states_to
+
 October 2017
    0.3.1    Added nyc code coverage tool
    0.3.0    the library is rewritten on ES6

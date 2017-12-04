@@ -115,9 +115,9 @@ function StatesService(settings, log, trace){
      * @param {[type]} properties [array of properties, containing the state numbers to go, e.g. ['500', '004']]
      */
     function addStateLinks(state, properties){
-      state.states_to = [];
-      properties.forEach( (property, index) => {
-        state.states_to.push(state[property]);
+      state.states_to = new Set();
+      properties.forEach( (property) => {
+        state.states_to.add(state[property]);
       });
     };
 
