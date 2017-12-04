@@ -1,4 +1,5 @@
 December 2017 
+   0.5.0    Implemented proper usage of ES6 Set() to store states_to
    0.4.2    Using ES6 Set() to store states_to
 
 October 2017

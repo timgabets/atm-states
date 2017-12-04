@@ -68,7 +68,11 @@ test('should parse state A properly', t => {
   parsed.set('read_condition_3', '002');
   parsed.set('card_return_flag', '001');
   parsed.set('no_fit_match_next_state', '127');
-  parsed.set('states_to', ['500', '127']);
+
+  let states_to = new Set();
+  states_to.add('500');
+  states_to.add('127');
+  parsed.set('states_to', states_to);
   
   t.deepEqual(s.parseState('000A870500128002002002001127'), parsed);
 });
@@ -87,7 +91,12 @@ test('should parse state B properly', t => {
   parsed.set('local_pin_check_error_screen', '138');
   parsed.set('remote_pin_check_next_state', '026');
   parsed.set('local_pin_check_max_retries', '003');
-  parsed.set('states_to', [ '002', '131', '026', '026', '026' ]);
+
+  let states_to = new Set();
+  states_to.add('002');
+  states_to.add('131');
+  states_to.add('026');
+  parsed.set('states_to', states_to);  
 
   t.deepEqual(s.parseState('024B024002131026026138026003'), parsed);
 });
@@ -106,7 +115,13 @@ test('should parse state b properly', t => {
   parsed.set('second_entry_screen_number', '064');
   parsed.set('mismatch_first_entry_screen_number', '065');
   parsed.set('extension_state', '231');
-  parsed.set('states_to', [ '002', '131', '232', '000' ]);
+
+  let states_to = new Set();
+  states_to.add('002');
+  states_to.add('131');
+  states_to.add('232');
+  states_to.add('000');
+  parsed.set('states_to', states_to);  
 
   t.deepEqual(s.parseState('230b063002131232000064065231'), parsed);
 });
@@ -118,7 +133,10 @@ test('should parse state C properly', t => {
   parsed.set('number', '634');
   parsed.set('type', 'C');
   parsed.set('next_state', '631');
-  parsed.set('states_to', [ '631' ]);
+
+  let states_to = new Set();
+  states_to.add('631');
+  parsed.set('states_to', states_to);
       
   t.deepEqual(s.parseState('634C631791092174618362840503'), parsed);
 });
@@ -136,7 +154,10 @@ test('should parse state D properly', t => {
   parsed.set('C_preset_mask', '002');
   parsed.set('D_preset_mask', '003');
   parsed.set('extension_state', '005');
-  parsed.set('states_to', [ '024' ]);
+  
+  let states_to = new Set();
+  states_to.add('024');
+  parsed.set('states_to', states_to);
 
   t.deepEqual(s.parseState('003D024000128001002003004005'), parsed);
 });
@@ -155,7 +176,14 @@ test('should parse state E properly', t => {
   parsed.set('FDK_C_next_state', '571');
   parsed.set('FDK_D_next_state', '132');
   parsed.set('buffer_location', '000');
-  parsed.set('states_to', [ '002', '131', '255', '255', '571', '132' ]);
+
+  let states_to = new Set();
+  states_to.add('002');
+  states_to.add('131');
+  states_to.add('255');
+  states_to.add('571');
+  states_to.add('132');
+  parsed.set('states_to', states_to);
 
   t.deepEqual(s.parseState('141E141002131255255571132000'), parsed);    
 });
@@ -174,7 +202,14 @@ test('should parse state F properly', t => {
   parsed.set('FDK_C_next_state', '220');
   parsed.set('FDK_D_next_state', '219');
   parsed.set('amount_display_screen', '006');
-  parsed.set('states_to', [ '002', '131', '220', '255', '220', '219' ]);
+
+  let states_to = new Set();
+  states_to.add('002');
+  states_to.add('131');
+  states_to.add('220');
+  states_to.add('255');
+  states_to.add('219');
+  parsed.set('states_to', states_to);
   
   t.deepEqual(s.parseState('219F069002131220255220219006'), parsed);    
 });
@@ -192,7 +227,12 @@ test('should parse state G properly', t => {
   parsed.set('decimal_places', 'BN3');
   parsed.set('currency_type', 'QWE');
   parsed.set('amount_check_condition', 'ASD');
-  parsed.set('states_to', [ '074', '07T' ]);
+
+  let states_to = new Set();
+  states_to.add('074');
+  states_to.add('07T');
+  parsed.set('states_to', states_to);
+
   t.deepEqual(s.parseState('073G07407TYUGHJVBN3QWEASDZXC'), parsed);    
 });
 
@@ -210,7 +250,14 @@ test('should parse state H properly', t => {
   parsed.set('FDK_C_next_state', '090');
   parsed.set('FDK_D_next_state', '089');
   parsed.set('buffer_and_display_params', '003');
-  parsed.set('states_to', [ '002', '131', '090', '255', '090', '089' ]);
+
+  let states_to = new Set();
+  states_to.add('002');
+  states_to.add('131');
+  states_to.add('090');
+  states_to.add('255');
+  states_to.add('089');
+  parsed.set('states_to', states_to);
 
   t.deepEqual(s.parseState('089H564002131090255090089003'), parsed);    
 });
@@ -229,7 +276,10 @@ test('should parse state I properly', t => {
   parsed.set('send_amount_data', '001');
   parsed.set('send_pin_buffer', '001');
   parsed.set('send_buffer_B_buffer_C', '003');
-  parsed.set('states_to', [ '146' ]);
+  
+  let states_to = new Set();
+  states_to.add('146');
+  parsed.set('states_to', states_to);
 
   t.deepEqual(s.parseState('027I025146001000001001001003'), parsed);        
 });
@@ -260,7 +310,10 @@ test('should parse state k properly', t => {
   parsed.set('good_read_next_state', '001');
   parsed.set('card_return_flag', '001');
   parsed.set('no_fit_match_next_state', '127');
-  parsed.set('states_to', [ '001' ]);
+
+  let states_to = new Set();
+  states_to.add('001');
+  parsed.set('states_to', states_to);
 
   t.deepEqual(s.parseState('515k000001000000000000001127'), parsed);        
 });
@@ -271,7 +324,13 @@ test('should parse state K properly', t => {
   parsed.set('description', 'FIT Switch state');
   parsed.set('number', '001');
   parsed.set('type', 'K');
-  parsed.set('states_to', [ '003', '004', '004', '127', '127', '127', '127', '127' ] );
+
+  let states_to = new Set();
+  states_to.add('003');
+  states_to.add('004');
+  states_to.add('127');
+
+  parsed.set('states_to', states_to);
 
   t.deepEqual(s.parseState('001K003004004127127127127127'), parsed);        
 });
@@ -290,7 +349,12 @@ test('should parse state m properly', t => {
   parsed.set('buffer_positions', '255');
   parsed.set('FDK_active_mask', '570');
   parsed.set('multi_language_screens_extension_state', '255');
-  parsed.set('states_to', [ '002', '131' ]);
+
+  let states_to = new Set();
+  states_to.add('002');
+  states_to.add('131');
+  parsed.set('states_to', states_to);
+
   t.deepEqual(s.parseState('172m138002131173255255570255'), parsed);        
 });
 
@@ -305,7 +369,12 @@ test('should parse state U properly', t => {
   parsed.set('device_identifier_grafic', '113');
   parsed.set('device_unavailable_next_state', '201');
   parsed.set('device_subcomponent_identifier', '00q');
-  parsed.set('states_to', [ '190', '201' ]);
+
+  let states_to = new Set();
+  states_to.add('190');
+  states_to.add('201');
+  parsed.set('states_to', states_to);
+
   t.deepEqual(s.parseState('189U03519011320100q000000000'), parsed);        
 });
 
@@ -343,7 +412,13 @@ test('should parse state X properly', t => {
   parsed.set('extension_state', '039');
   parsed.set('buffer_id', '010');
   parsed.set('FDK_active_mask', '255');
-  parsed.set('states_to', [ '002', '131', '038' ]);
+
+  let states_to = new Set();
+  states_to.add('002');
+  states_to.add('131');
+  states_to.add('038');
+  parsed.set('states_to', states_to);
+
   t.deepEqual(s.parseState('037X037002131038039010255000'), parsed);        
 });
 
@@ -361,7 +436,13 @@ test('should parse state Y properly', t => {
   parsed.set('buffer_positions', '004');
   parsed.set('FDK_active_mask', '052');
   parsed.set('multi_language_screens', '013');
-  parsed.set('states_to', [ '002', '131', '012' ]);
+
+  let states_to = new Set();
+  states_to.add('002');
+  states_to.add('131');
+  states_to.add('012');
+  parsed.set('states_to', states_to);
+
   t.deepEqual(s.parseState('011Y023002131012255004052013'), parsed);        
 });
 
@@ -419,7 +500,11 @@ test('should parse state ? properly', t => {
   parsed.set('amount_authorized_source', '031');
   parsed.set('amount_other_source', '040');
   parsed.set('amount_too_large_next_state', '000');
-  parsed.set('states_to', [ '560', '000' ]);
+
+  let states_to = new Set();
+  states_to.add('560');
+  states_to.add('000');
+  parsed.set('states_to', states_to);
 
   t.deepEqual(s.parseState('301?560001001031040000000000'), parsed);        
 });
@@ -453,7 +538,11 @@ test('should parse state + properly', t => {
   parsed.set('automatic_icc_app_selection_flag', '000');
   parsed.set('default_app_label_usage_flag', '000');
   parsed.set('cardholder_confirmation_flag', '000');
-  parsed.set('states_to', [ '501', '001' ]);
+
+  let states_to = new Set();
+  states_to.add('501');
+  states_to.add('001');
+  parsed.set('states_to', states_to);
 
   t.deepEqual(s.parseState('500+501001001000000000000000'), parsed);        
 });
@@ -471,7 +560,12 @@ test('should parse state , properly', t => {
   parsed.set('icc_app_level_error_next_state', '001');
   parsed.set('icc_hardware_level_error_next_state', '001');
   parsed.set('no_usable_applications_fallback_next_state', '167');
-  parsed.set('states_to', [ '502', '001', '001', '001', '001', '167' ]);
+
+  let states_to = new Set();
+  states_to.add('502');
+  states_to.add('001');
+  states_to.add('167');
+  parsed.set('states_to', states_to);
 
   t.deepEqual(s.parseState('501,000502001001001001167000'), parsed);        
 });
@@ -484,7 +578,11 @@ test('should parse state - properly', t => {
   parsed.set('type', '-');
   parsed.set('language_match_next_state', '505');
   parsed.set('no_language_match_next_state', '503');
-  parsed.set('states_to', [ '505', '503' ]);
+
+  let states_to = new Set();
+  states_to.add('505');
+  states_to.add('503');
+  parsed.set('states_to', states_to);
 
   t.deepEqual(s.parseState('502-505503000000000000000000'), parsed);        
 });
@@ -515,7 +613,10 @@ test('should parse state ; properly', t => {
   parsed.set('reinit_method', '000');
   parsed.set('chip_power_control', '000');
   parsed.set('reset_terminal_pobjects', '000');
-  parsed.set('states_to', [ '026', '026' ]);
+
+  let states_to = new Set();
+  states_to.add('026');
+  parsed.set('states_to', states_to);
 
   t.deepEqual(s.parseState('569;026026000000000000000000'), parsed);        
 });
@@ -531,7 +632,12 @@ test('should parse state & properly', t => {
   parsed.set('cancel_next_state', '131');
   parsed.set('error_next_state', '131');
   parsed.set('timeout_next_state', '002');
-  parsed.set('states_to', [ '085', '131', '131', '002' ]);
+
+  let states_to = new Set();
+  states_to.add('085');
+  states_to.add('131');
+  states_to.add('002');
+  parsed.set('states_to', states_to);
 
   t.deepEqual(s.parseState('109&276085131131002004255000'), parsed);        
 });
@@ -558,7 +664,11 @@ test('should add valid state passed as array object', t => {
   parsed.set('read_condition_3', '002');
   parsed.set('card_return_flag', '001');
   parsed.set('no_fit_match_next_state', '127');
-  parsed.set('states_to', [ '500', '127' ]);
+
+  let states_to = new Set();
+  states_to.add('500');
+  states_to.add('127');
+  parsed.set('states_to', states_to);
 
   t.deepEqual(s.addStateArray(['000', 'A', '870', '500', '128', '002', '002', '002', '001', '127']), true);
   t.deepEqual(s.get('000'), parsed);
@@ -578,7 +688,11 @@ test('should add valid state passed as array object with unpadded values', t => 
   parsed.set('read_condition_3', '002');
   parsed.set('card_return_flag', '021');
   parsed.set('no_fit_match_next_state', '127');
-  parsed.set('states_to', [ '500', '127' ]);
+
+  let states_to = new Set();
+  states_to.add('500');
+  states_to.add('127');
+  parsed.set('states_to', states_to);
 
   t.deepEqual(s.addStateArray(['0', 'A', '870', '500', '128', '2', '2', '2', '21', '127']), true);
   t.deepEqual(s.get('000'), parsed);
@@ -644,7 +758,11 @@ test('should overwrite previous state data', t => {
   parsed.set('read_condition_3', '002');
   parsed.set('card_return_flag', '001');
   parsed.set('no_fit_match_next_state', '127');
-  parsed.set('states_to', [ '500', '127' ]);
+
+  let states_to = new Set();
+  states_to.add('500');
+  states_to.add('127');
+  parsed.set('states_to', states_to);
 
   t.is(s.addState('000A870500128002002002001127'), true);
   t.deepEqual(s.get('000'), parsed);
@@ -665,7 +783,11 @@ test('should add valid state passed as string', t => {
   parsed.set('read_condition_3', '002');
   parsed.set('card_return_flag', '001');
   parsed.set('no_fit_match_next_state', '127');
-  parsed.set('states_to', [ '500', '127' ]);
+
+  let states_to = new Set();
+  states_to.add('500');
+  states_to.add('127');
+  parsed.set('states_to', states_to);
 
   t.is(s.addState('000A870500128002002002001127'), true);
   t.deepEqual(s.get('000'), parsed);
@@ -790,7 +912,11 @@ test('should update state levels with depth 1', t => {
   parsed.set('read_condition_3', '002');
   parsed.set('card_return_flag', '001');
   parsed.set('no_fit_match_next_state', '127');
-  parsed.set('states_to', [ '500', '127' ]);
+
+  let states_to = new Set();
+  states_to.add('500');
+  states_to.add('127');
+  parsed.set('states_to', states_to);
 
   t.is(s.addState('000A870500128002002002001127'), true);
   t.deepEqual(s.get('000'), parsed);
@@ -819,7 +945,11 @@ test('should update state levels with depth 2', t => {
   A000.set('read_condition_3', '002');
   A000.set('card_return_flag', '001');
   A000.set('no_fit_match_next_state', '127');
-  A000.set('states_to', [ '500', '127' ]);
+
+  let A000_states_to = new Set();
+  A000_states_to.add('500');
+  A000_states_to.add('127');
+  A000.set('states_to', A000_states_to);
 
   t.is(s.addState('000A870500128002002002001127'), true);
   t.deepEqual(s.get('000'), A000);
@@ -838,7 +968,12 @@ test('should update state levels with depth 2', t => {
   B500.set('local_pin_check_error_screen', '138');
   B500.set('remote_pin_check_next_state', '026');
   B500.set('local_pin_check_max_retries', '003');
-  B500.set('states_to', [ '002', '131', '026', '026', '026' ]);
+
+  let B500_states_to = new Set();
+  B500_states_to.add('002');
+  B500_states_to.add('131');
+  B500_states_to.add('026');
+  B500.set('states_to', B500_states_to);
 
   t.is(s.addState('500B024002131026026138026003'), true);
   t.deepEqual(s.get('500'), B500);
@@ -855,7 +990,10 @@ test('should update state levels with depth 2', t => {
   D127.set('C_preset_mask', '002');
   D127.set('D_preset_mask', '003');
   D127.set('extension_state', '005');
-  D127.set('states_to', [ '024' ]);
+
+  let D127_states_to = new Set();
+  D127_states_to.add('024');
+  D127.set('states_to', D127_states_to);
 
   t.is(s.addState('127D024000128001002003004005'), true);
   t.deepEqual(s.get('127'), D127);
@@ -935,7 +1073,11 @@ test('should not change level if states_to contains the state itself', t => {
   A000.set('read_condition_3', '002');
   A000.set('card_return_flag', '001');
   A000.set('no_fit_match_next_state', '127');
-  A000.set('states_to', [ '219', '127' ]);
+
+  let A000_states_to = new Set();
+  A000_states_to.add('219');
+  A000_states_to.add('127');
+  A000.set('states_to', A000_states_to);
 
   t.is(s.addState('000A870219128002002002001127'), true);
   t.deepEqual(s.get('000'), A000);
@@ -953,7 +1095,14 @@ test('should not change level if states_to contains the state itself', t => {
   F219.set('FDK_C_next_state', '220');
   F219.set('FDK_D_next_state', '219');
   F219.set('amount_display_screen', '006');
-  F219.set('states_to', [ '002', '131', '220', '255', '220', '219' ]);
+
+  let F219_states_to = new Set();
+  F219_states_to.add('002');
+  F219_states_to.add('131');
+  F219_states_to.add('220');
+  F219_states_to.add('255');
+  F219_states_to.add('219');
+  F219.set('states_to', F219_states_to);
 
   t.is(s.addState('219F069002131220255220219006'), true);   
   t.deepEqual(s.get('219'), F219);
@@ -1006,18 +1155,14 @@ test('should return edges when single state added', t => {
 test('should return edges when added multiple states', t => {
   let n = new StatesService();
 
-  let edges = [
-    {'from': '000', 'to': '500'},
-    {'from': '000', 'to': '127'},
-    {'from': '001', 'to': '003'},
-    {'from': '001', 'to': '004' }, 
-    {'from': '001', 'to': '004' }, 
-    {'from': '001', 'to': '127' }, 
-    {'from': '001', 'to': '127' }, 
-    {'from': '001', 'to': '127' }, 
-    {'from': '001', 'to': '127' }, 
-    {'from': '001', 'to': '127' }
+  let edges = [ 
+    { from: '000', to: '500' },
+    { from: '000', to: '127' },
+    { from: '001', to: '003' },
+    { from: '001', to: '004' },
+    { from: '001', to: '127' } 
   ];
+
   let states = ['000A870500128002002002001127', '001K003004004127127127127127'];
       
   t.is(n.add(states), true);
@@ -1040,7 +1185,14 @@ test('should convert Map state to Object state', t => {
   map.set('FDK_C_next_state', '220');
   map.set('FDK_D_next_state', '219');
   map.set('amount_display_screen', '006');
-  map.set('states_to', [ '002', '131', '220', '255', '220', '219' ]);
+
+  let states_to = new Set();
+  states_to.add('002');
+  states_to.add('131');
+  states_to.add('220');
+  states_to.add('255');
+  states_to.add('219');
+  map.set('states_to', states_to);
 
   let object = {
     'description': 'Amount entry state',
@@ -1054,7 +1206,7 @@ test('should convert Map state to Object state', t => {
     'FDK_C_next_state': '220',
     'FDK_D_next_state': '219',
     'amount_display_screen': '006',
-    'states_to': [ '002', '131', '220', '255', '220', '219' ]
+    'states_to': [ '002', '131', '220', '255', '219' ]
   };
 
   t.deepEqual(n.convertMapToObject(map), object);
@@ -1076,7 +1228,14 @@ test('should convert Object state to Map state', t => {
   map.set('FDK_C_next_state', '220');
   map.set('FDK_D_next_state', '219');
   map.set('amount_display_screen', '006');
-  map.set('states_to', [ '002', '131', '220', '255', '220', '219' ]);
+
+  let states_to = new Set();
+  states_to.add('002');
+  states_to.add('131');
+  states_to.add('220');
+  states_to.add('255');
+  states_to.add('219');
+  map.set('states_to', states_to);
 
   let object = {
     'description': 'Amount entry state',
@@ -1112,7 +1271,12 @@ test('should restore states from settings', t => {
   B500.set('local_pin_check_error_screen', '138');
   B500.set('remote_pin_check_next_state', '026');
   B500.set('local_pin_check_max_retries', '003');
-  B500.set('states_to', [ '002', '131', '026', '026', '026' ]);
+
+  let B500_states_to = new Set();
+  B500_states_to.add('002');
+  B500_states_to.add('131');
+  B500_states_to.add('026');
+  B500.set('states_to', B500_states_to);
 
   let D127 = new Map();
 
@@ -1126,7 +1290,10 @@ test('should restore states from settings', t => {
   D127.set('C_preset_mask', '002');
   D127.set('D_preset_mask', '003');
   D127.set('extension_state', '005');
-  D127.set('states_to', [ '024' ]);
+
+  let D127_states_to = new Set();
+  D127_states_to.add('024');
+  D127.set('states_to', D127_states_to);
 
   let J002 = new Map();
         
@@ -1170,7 +1337,12 @@ test('should prepare states to be saved to settings', t => {
   B500.set('local_pin_check_error_screen', '138');
   B500.set('remote_pin_check_next_state', '026');
   B500.set('local_pin_check_max_retries', '003');
-  B500.set('states_to', [ '002', '131', '026', '026', '026' ]);
+
+  let B500_states_to = new Set();
+  B500_states_to.add('002');
+  B500_states_to.add('131');
+  B500_states_to.add('026');
+  B500.set('states_to', B500_states_to);
 
   let D127 = new Map();
 
@@ -1184,7 +1356,10 @@ test('should prepare states to be saved to settings', t => {
   D127.set('C_preset_mask', '002');
   D127.set('D_preset_mask', '003');
   D127.set('extension_state', '005');
-  D127.set('states_to', [ '024' ]);
+
+  let D127_states_to = new Set();
+  D127_states_to.add('024');
+  D127.set('states_to', D127_states_to);
 
   let J002 = new Map();
         
