@@ -1430,6 +1430,7 @@ test('should restore states if package and settings versions match', t => {
   Y107.set('multi_language_screens', '255');
 
   t.deepEqual(n.get('107'), Y107);
+  t.is(settings.get('states_version'), pkgjson.version);
 });
 
 test('should not restore states if package and settings version mismatch', t => {
@@ -1455,5 +1456,31 @@ test('should not restore states if package and settings version mismatch', t => 
 
   const n = new StatesService(settings);
   t.deepEqual(n.states, {});
+  t.is(settings.get('states_version'), pkgjson.version);
 });
 
+
+test('should not restore states if settings version is undefined', t => {
+  let settings = new Map();
+  let settings_states = { 
+    '107': {
+      'description': 'Eight FDK selection state',
+      'number': '107',
+      'type': 'Y',
+      'screen_number': '047',
+      'timeout_next_state': '002',
+      'cancel_next_state': '131',
+      'FDK_next_state': '108', 
+      'extension_state': '255',
+      'buffer_positions': '000',
+      'FDK_active_mask': '255',
+      'multi_language_screens': '255'
+    }
+  };
+    
+  settings.set('states', settings_states);
+
+  const n = new StatesService(settings);
+  t.deepEqual(n.states, {});
+  t.is(settings.get('states_version'), pkgjson.version);
+});
