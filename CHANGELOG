@@ -1,4 +1,5 @@
 December 2017
+   0.6.5    Using try/catch while checking version
    0.6.4    Fixed build error
    0.6.3    'Please, upload ATM states from host' on the next line
    0.6.2    Checking whether the settings version is undefined while checking module version

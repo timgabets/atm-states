@@ -1,6 +1,6 @@
 {
   "name": "atm-states",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "ATM States Service",
   "main": "lib/states.js",
   "scripts": {
