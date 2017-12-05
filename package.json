@@ -4,7 +4,7 @@
   "description": "ATM States Service",
   "main": "lib/states.js",
   "scripts": {
-    "test": "eslint tests/** lib** && nyc --reporter=html ava"
+    "test": "eslint tests/** lib** && nyc --reporter=html --reporter=lcov ava"
   },
   "repository": "https://github.com/timgabets/atm-states",
   "keywords": [
