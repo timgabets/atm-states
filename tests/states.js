@@ -1,6 +1,7 @@
 import test from 'ava';
 import StatesService from '../lib/states.js';
 
+const pkgjson = require('../package.json');
 const s = new StatesService();
 
 /**
@@ -1384,5 +1385,77 @@ test('should prepare states to be saved to settings', t => {
   });
   
   t.deepEqual(n.prepareStatesToSave(), states_prepared);
+});
+
+
+/**
+ * checkVersion()
+ */
+
+test('should restore states if package and settings versions match', t => {
+  let settings = new Map();
+  let settings_states = { 
+    '107': {
+      'description': 'Eight FDK selection state',
+      'number': '107',
+      'type': 'Y',
+      'screen_number': '047',
+      'timeout_next_state': '002',
+      'cancel_next_state': '131',
+      'FDK_next_state': '108', 
+      'extension_state': '255',
+      'buffer_positions': '000',
+      'FDK_active_mask': '255',
+      'multi_language_screens': '255'
+    }
+  };
+    
+  settings.set('states_version', pkgjson.version);
+  settings.set('states', settings_states);
+
+  const n = new StatesService(settings);
+
+  let Y107 = new Map ();
+
+  Y107.set('description', 'Eight FDK selection state');
+  Y107.set('number', '107');
+  Y107.set('type', 'Y');
+  Y107.set('screen_number', '047');
+  Y107.set('timeout_next_state', '002');
+  Y107.set('cancel_next_state', '131');
+  Y107.set('FDK_next_state', '108');
+  Y107.set('extension_state', '255');
+  Y107.set('buffer_positions', '000');
+  Y107.set('FDK_active_mask', '255');
+  Y107.set('multi_language_screens', '255');
+
+  t.deepEqual(n.get('107'), Y107);
+});
+
+test('should not restore states if package and settings version mismatch', t => {
+  let settings = new Map();
+  settings.set('states_version', '0.2.0');
+  let settings_states = { 
+    '107': {
+      'description': 'Eight FDK selection state',
+      'number': '107',
+      'type': 'Y',
+      'screen_number': '047',
+      'timeout_next_state': '002',
+      'cancel_next_state': '131',
+      'FDK_next_state': '108', 
+      'extension_state': '255',
+      'buffer_positions': '000',
+      'FDK_active_mask': '255',
+      'multi_language_screens': '255'
+    }
+  };
+    
+  settings.set('states_version', pkgjson.version);
+  settings.set('states', settings_states);
+
+  const n = new StatesService(settings);
+  
+  t.is(n.states, {});
 });
 
