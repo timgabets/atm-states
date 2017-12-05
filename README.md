@@ -1,5 +1,7 @@
 # atm-states
 
+![Travis CI build badge](https://travis-ci.org/timgabets/atm-states.svg?branch=master)
+
 ATM States Service implementation, used by [Electron ATM](https://github.com/timgabets/electron-atm) and [ATM State Navigator](https://github.com/timgabets/states-navigator) applications. The module may be used for NDC ATM states parsing and processing. 
 
 ## To use:
