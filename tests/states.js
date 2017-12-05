@@ -1434,7 +1434,6 @@ test('should restore states if package and settings versions match', t => {
 
 test('should not restore states if package and settings version mismatch', t => {
   let settings = new Map();
-  settings.set('states_version', '0.2.0');
   let settings_states = { 
     '107': {
       'description': 'Eight FDK selection state',
@@ -1451,11 +1450,10 @@ test('should not restore states if package and settings version mismatch', t => 
     }
   };
     
-  settings.set('states_version', pkgjson.version);
+  settings.set('states_version', '0.2.0');
   settings.set('states', settings_states);
 
   const n = new StatesService(settings);
-  
-  t.is(n.states, {});
+  t.deepEqual(n.states, {});
 });
 
